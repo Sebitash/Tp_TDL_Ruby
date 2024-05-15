@@ -1,5 +1,7 @@
 require 'ruby2d'
 
+#set fps_cap: 30
+
 PASO = 15
 
 set width: 800
@@ -10,22 +12,26 @@ background = Image.new(
   y: -920
 )
 
-juego_empezado = false
+imagen_ancho = 3072
+imagen_alto = 1536
+
+sprite_ancho = 256
+sprite_alto = 256
 
 hero = Sprite.new(
   'hero.png',
   # Heroe se separa en 4 animaciones de 256 cada una (256 x 4 = 1024, una dimension de la imagen)
-  width: 256,
-  height: 256,
-  clip_width: 256,
-  x: (Window.width - 256) / 2,
-  y: (Window.height - 256) / 2
+  width: sprite_ancho,
+  height: sprite_alto,
+  clip_width: sprite_ancho,
+  x: (Window.width - sprite_ancho) / 2,
+  y: (Window.height - sprite_alto) / 2
 )
 
 mensaje = Text.new(
   "Presione cualquiera tecla para comenzar",
-  x: Window.width / 2 - 175,
-  y: Window.height / 2 - 20,
+  x: (Window.width - 350) / 2,
+  y: (Window.height - 20) / 2,
   z: 1 # Para que aparezca sobre el background
 )
 
@@ -44,15 +50,15 @@ on :key_held do |event|
   when 'right'
     hero.play
 
-    if (background.x - Window.width) > -background.width
+    if (background.x - Window.width) > -imagen_ancho
       background.x -= PASO
-    elsif hero.x < 600
+    elsif hero.x < (Window.width - sprite_ancho)
       hero.x += PASO
     end
   when 'up'
     hero.play
 
-    if background.y < 0
+    if background.y < 0 and hero.y > 0
       background.y += PASO
     elsif hero.y > 0
       hero.y -= PASO
@@ -62,7 +68,7 @@ on :key_held do |event|
 
     if (background.y - Window.height) > - background.height
       background.y -= PASO
-    elsif hero.y < 350
+    elsif hero.y < (Window.height - sprite_alto)
       hero.y += PASO
     end
   end
