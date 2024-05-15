@@ -15,15 +15,15 @@ juego_empezado = false
 cuadrado = nil
 
 mensaje = Text.new(
-  "Clickear para empezar",
-  x: Window.width / 2 - 90,
-  y: Window.height / 2,
+  "Presione cualquiera tecla para comenzar",
+  x: Window.width / 2 - 175,
+  y: Window.height / 2 - 20,
   z: 1 # Para que aparezca sobre el background
 )
 
-on :mouse_down do |event|
-  # Si ya existe cuadrado no añado otro mas, si ya toqué el mensaje creo cuadrado
-  if juego_empezado and mensaje.contains?(event.x, event.y) and cuadrado.nil?
+on :key_held do |event|
+  # Si ya existe cuadrado no añado otro mas
+  if cuadrado.nil?
     mensaje.remove
 
     cuadrado = Square.new(
@@ -35,14 +35,6 @@ on :mouse_down do |event|
     )
   else
     juego_empezado = true
-  end
-end
-
-on :key_held do |event|
-  # Si intento moverme con el cuadrado antes de hacer click en el mensaje
-  if cuadrado == nil
-    puts "No se inició el juego"
-    exit
   end
 
   #if !tecla_presionada
