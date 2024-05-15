@@ -2,26 +2,41 @@ require 'ruby2d'
 
 WALK_SPEED = 5
 
-square = Square.new(
-  x: Window.width / 2,
-  y: Window.height / 2,
-  size: 25,
-  color: 'purple'
-)
+juego_empezado = false
+
+mensaje = Text.new("Clickear para empezar", x: Window.width / 2, y: Window.height / 2)
+
+cuadrado = nil
+
+on :mouse_down do |event|
+  if juego_empezado and mensaje.contains?(event.x, event.y)
+    mensaje.remove
+
+    cuadrado = Square.new(
+      x: Window.width / 2,
+      y: Window.height / 2,
+      size: 25,
+      color: 'purple'
+    )
+  else
+    juego_empezado = true
+  end
+end
 
 on :key_held do |event|
   if event.key == 'left'
-    square.x -= WALK_SPEED
+    cuadrado.x -= WALK_SPEED
   end
   if event.key == 'right'
-    square.x += WALK_SPEED
+    cuadrado.x += WALK_SPEED
   end
   if event.key == 'up'
-    square.y -= WALK_SPEED
+    cuadrado.y -= WALK_SPEED
   end
   if event.key == 'down'
-    square.y += WALK_SPEED
+    cuadrado.y += WALK_SPEED
   end
 end
+
 
 show
