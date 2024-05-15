@@ -2,14 +2,21 @@ require 'ruby2d'
 
 WALK_SPEED = 20
 
+background = Image.new(
+  'basic.png',
+  width: Window.width,
+  height: Window.height,
+  z: 0
+)
+
 juego_empezado = false
 tecla_presionada = false
-
-mensaje = Text.new("Clickear para empezar", x: Window.width / 2 - 90, y: Window.height / 2)
-
 cuadrado = nil
 
+mensaje = Text.new("Clickear para empezar", x: Window.width / 2 - 90, y: Window.height / 2, z: 1)
+
 on :mouse_down do |event|
+  # Si ya existe cuadrado no añado otro mas, si ya toqué el mensaje creo cuadrado
   if juego_empezado and mensaje.contains?(event.x, event.y) and cuadrado.nil?
     mensaje.remove
 
@@ -17,7 +24,8 @@ on :mouse_down do |event|
       x: Window.width / 2,
       y: Window.height / 2,
       size: 25,
-      color: 'purple'
+      color: 'purple',
+      z: 1,
     )
   else
     juego_empezado = true
@@ -25,6 +33,7 @@ on :mouse_down do |event|
 end
 
 on :key_held do |event|
+  # Si intento moverme con el cuadrado antes de hacer click en el mensaje
   if cuadrado == nil
     puts "No se inició el juego"
     exit
@@ -47,6 +56,7 @@ on :key_held do |event|
   end
 end
 
+# Esto hace que se mueva como de bloque en bloque y no tan suave
 on :key_up do
   tecla_presionada = false
 end
