@@ -1,22 +1,16 @@
 require 'ruby2d'
 
-WALK_SPEED = 5
+WALK_SPEED = 20
 
 juego_empezado = false
-mensaje = Text.new("Clickear para empezar", x: Window.width / 2, y: Window.height / 2)
+tecla_presionada = false
+
+mensaje = Text.new("Clickear para empezar", x: Window.width / 2 - 90, y: Window.height / 2)
+
 cuadrado = nil
 
-/
-background = Image.new(
-  'basic.png',
-  width: Window.width,
-  height: Window.height,
-  z: 10
-)
-/
-
 on :mouse_down do |event|
-  if juego_empezado and mensaje.contains?(event.x, event.y)
+  if juego_empezado and mensaje.contains?(event.x, event.y) and cuadrado.nil?
     mensaje.remove
 
     cuadrado = Square.new(
@@ -30,8 +24,14 @@ on :mouse_down do |event|
   end
 end
 
-if juego_empezado
-  on :key_held do |event|
+on :key_held do |event|
+  if cuadrado == nil
+    puts "No se inició el juego"
+    exit
+  end
+
+  if !tecla_presionada
+    tecla_presionada = true
     if event.key == 'left'
       cuadrado.x -= WALK_SPEED
     end
@@ -47,5 +47,8 @@ if juego_empezado
   end
 end
 
+on :key_up do
+  tecla_presionada = false
+end
 
 show
