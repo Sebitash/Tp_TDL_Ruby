@@ -1,16 +1,14 @@
 require 'ruby2d'
 
-WALK_SPEED = 20
+WALK_SPEED = 25
 
-background = Image.new(
-  'basic.png',
-  width: Window.width,
-  height: Window.height,
-  z: 0
-)
+set width: 800
+set height: 600
+
+background = Image.new('background.png', y: -920)
 
 juego_empezado = false
-tecla_presionada = false
+#tecla_presionada = false
 cuadrado = nil
 
 mensaje = Text.new("Clickear para empezar", x: Window.width / 2 - 90, y: Window.height / 2, z: 1)
@@ -21,8 +19,8 @@ on :mouse_down do |event|
     mensaje.remove
 
     cuadrado = Square.new(
-      x: Window.width / 2,
-      y: Window.height / 2,
+      x: 0,
+      y: Window.height - 30,
       size: 25,
       color: 'purple',
       z: 1,
@@ -39,26 +37,44 @@ on :key_held do |event|
     exit
   end
 
-  if !tecla_presionada
+  #if !tecla_presionada
     tecla_presionada = true
     if event.key == 'left'
-      cuadrado.x -= WALK_SPEED
+      if cuadrado.x > 0
+        cuadrado.x -= WALK_SPEED
+      elsif background.x < 0
+        background.x += WALK_SPEED
+      end
     end
     if event.key == 'right'
-      cuadrado.x += WALK_SPEED
+      if cuadrado.x < (Window.width - cuadrado.size)
+        cuadrado.x += WALK_SPEED
+      elsif (background.x - Window.width) > -background.width
+        background.x -= WALK_SPEED
+      end
     end
     if event.key == 'up'
-      cuadrado.y -= WALK_SPEED
+      if cuadrado.y > 0
+        cuadrado.y -= WALK_SPEED
+      elsif background.y < 0
+        background.y += WALK_SPEED
+      end
     end
     if event.key == 'down'
-      cuadrado.y += WALK_SPEED
+      if cuadrado.y < (Window.height - cuadrado.size)
+        cuadrado.y += WALK_SPEED
+      elsif (background.y - Window.height) > - background.height
+        background.y -= WALK_SPEED
+      end
     end
-  end
+  #end
 end
 
-# Esto hace que se mueva como de bloque en bloque y no tan suave
+# Si pongo esto + lo de tecla presionada, el cuadrado se mueve como en bloque y no tan suave
+/
 on :key_up do
   tecla_presionada = false
 end
+/
 
 show
