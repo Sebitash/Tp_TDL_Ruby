@@ -11,8 +11,16 @@ background = Image.new(
 )
 
 juego_empezado = false
-#tecla_presionada = false
-cuadrado = nil
+
+hero = Sprite.new(
+  'hero.png',
+  # Heroe se separa en 4 animaciones de 256 cada una (256 x 4 = 1024, una dimension de la imagen)
+  width: 256,
+  height: 256,
+  clip_width: 256,
+  x: (Window.width - 256) / 2,
+  y: (Window.height - 256) / 2
+)
 
 mensaje = Text.new(
   "Presione cualquiera tecla para comenzar",
@@ -22,60 +30,46 @@ mensaje = Text.new(
 )
 
 on :key_held do |event|
-  # Si ya existe cuadrado no añado otro mas
-  if cuadrado.nil?
-    mensaje.remove
+  mensaje.remove
 
-    cuadrado = Square.new(
-      x: Window.width / 2,
-      y: Window.height / 2,
-      size: 25,
-      color: 'purple',
-      z: 1,
-    )
-  else
-    juego_empezado = true
-  end
-
-  #if !tecla_presionada
-  #tecla_presionada = true
-  if event.key == 'left'
+  case event.key
+  when 'left'
+    hero.play flip: :horizontal
 
     if background.x < 0
       background.x += PASO
-    elsif cuadrado.x > 0
-      cuadrado.x -= PASO
+    elsif hero.x > -50
+      hero.x -= PASO
     end
-  end
-  if event.key == 'right'
+  when 'right'
+    hero.play
+
     if (background.x - Window.width) > -background.width
       background.x -= PASO
-    elsif cuadrado.x < 770
-      cuadrado.x += PASO
+    elsif hero.x < 600
+      hero.x += PASO
     end
-  end
-  if event.key == 'up'
+  when 'up'
+    hero.play
+
     if background.y < 0
       background.y += PASO
-    elsif cuadrado.y > 0
-      cuadrado.y -= PASO
+    elsif hero.y > 0
+      hero.y -= PASO
     end
-  end
-  if event.key == 'down'
+  when 'down'
+    hero.play
+
     if (background.y - Window.height) > - background.height
       background.y -= PASO
-    elsif cuadrado.y < 570
-      cuadrado.y += PASO
+    elsif hero.y < 350
+      hero.y += PASO
     end
   end
-  #end
 end
 
-# Si pongo esto + lo de tecla presionada, el cuadrado se mueve como en bloque y no tan suave
-/
 on :key_up do
-  tecla_presionada = false
+  hero.stop
 end
-/
 
 show
