@@ -1,6 +1,6 @@
 require 'ruby2d'
 
-PASO = 25
+PASO = 15
 
 set width: 800
 set height: 600
@@ -27,8 +27,8 @@ on :mouse_down do |event|
     mensaje.remove
 
     cuadrado = Square.new(
-      x: 0,
-      y: Window.height - 30,
+      x: Window.width / 2,
+      y: Window.height / 2,
       size: 25,
       color: 'purple',
       z: 1,
@@ -48,31 +48,32 @@ on :key_held do |event|
   #if !tecla_presionada
   #tecla_presionada = true
   if event.key == 'left'
-    if cuadrado.x > 0
-      cuadrado.x -= PASO
-    elsif background.x < 0
+
+    if background.x < 0
       background.x += PASO
+    elsif cuadrado.x > 0
+      cuadrado.x -= PASO
     end
   end
   if event.key == 'right'
-    if cuadrado.x < (Window.width - cuadrado.size)
-      cuadrado.x += PASO
-    elsif (background.x - Window.width) > -background.width
+    if (background.x - Window.width) > -background.width
       background.x -= PASO
+    elsif cuadrado.x < 770
+      cuadrado.x += PASO
     end
   end
   if event.key == 'up'
-    if cuadrado.y > 0
-      cuadrado.y -= PASO
-    elsif background.y < 0
+    if background.y < 0
       background.y += PASO
+    elsif cuadrado.y > 0
+      cuadrado.y -= PASO
     end
   end
   if event.key == 'down'
-    if cuadrado.y < (Window.height - cuadrado.size)
-      cuadrado.y += PASO
-    elsif (background.y - Window.height) > - background.height
+    if (background.y - Window.height) > - background.height
       background.y -= PASO
+    elsif cuadrado.y < 570
+      cuadrado.y += PASO
     end
   end
   #end
