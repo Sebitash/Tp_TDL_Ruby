@@ -12,12 +12,10 @@ def ejecutar_ataque(jugador, criatura)
   end
 
   ataque_jugador = jugador.atacar
-  ataque_criatura = criatura.atacar
+  ataque_criatura = criatura.ataque
 
   puts "#{jugador.nombre} lanza un ataque contra #{criatura.nombre}."
   puts "#{criatura.nombre} recibe #{ataque_jugador} puntos de daño."
-
-  criatura.attack
   puts "#{jugador.nombre} recibe #{ataque_criatura} puntos de daño."
 
   jugador.pv -= ataque_criatura
@@ -30,7 +28,7 @@ def ejecutar_ataque(jugador, criatura)
   criatura.pv -= ataque_jugador
   if criatura.pv <= 0
     criatura.pv = 0
-    exp_ganada = criatura.dar_exp
+    exp_ganada = criatura.exp
     jugador.exp += exp_ganada
     puts "¡#{jugador.nombre} ha asesinado a #{criatura.nombre}!"
     puts "¡#{jugador.nombre} ha ganado #{exp_ganada} EXP!"

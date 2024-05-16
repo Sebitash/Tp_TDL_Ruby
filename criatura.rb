@@ -1,26 +1,34 @@
 module Creature
-  def attack
-    specific_attack
+  def ataque
+    ataque_especifico
   end
-
-  def move
-    specific_move
+  def movimiento
+    movimiento_especifico
   end
-  def health
-      specific_health
+  def salud
+     salud_especifica
+  end
+  def estado
+    estado_especifico
+  end
+  def exp
+    exp_especifico
   end
 
   private
 
-  def specific_attack
-    raise NotImplementedError, "#{self.class} no ha implementado el método 'specific_attack'"
+  def ataque_especifico
+    raise NotImplementedError, "#{self.class} no ha implementado el método 'ataque_especifico'"
   end
 
-  def specific_move
-    raise NotImplementedError, "#{self.class} no ha implementado el método 'specific_move'"
+  def movimiento_especifico
+    raise NotImplementedError, "#{self.class} no ha implementado el método 'movimiento_especifico'"
   end
 
-  def specific_health
-    raise NotImplementedError, "#{self.class} no ha implementado el metodo 'specific_health"
+  def salud_especifica
+    raise NotImplementedError, "#{self.class} no ha implementado el metodo 'salud_especifica"
+  end
+  def estado_especifico
+    raise NotImplementedError, "#{self.class} no ha implementado el metodo 'estado_especifico'"
   end
 end
