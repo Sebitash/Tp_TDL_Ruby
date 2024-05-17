@@ -1,73 +1,46 @@
-require_relative 'dragon'
-require_relative 'griffin'
-require_relative 'phoenix'
+require_relative 'criatura/dragon'
+require_relative 'criatura/grifo'
+require_relative 'criatura/fenix'
+require_relative 'criatura/rata'
+require_relative 'equipamiento/arma'
 require_relative 'jugador'
-require_relative 'armas'
-require_relative 'rata'
 
-def ejecutar_ataque(jugador, criatura)
-  if criatura.pv <= 0
-    puts "El objetivo esta muerto."
-    return
-  end
 
-  ataque_jugador = jugador.atacar
-  ataque_criatura = criatura.ataque
+def combatir(jugador, criatura)
+  jugador.atacar(criatura)
+  criatura.atacar(jugador)
 
-  puts "#{jugador.nombre} lanza un ataque contra #{criatura.nombre}."
-  puts "#{criatura.nombre} recibe #{ataque_jugador} puntos de daño."
-  puts "#{jugador.nombre} recibe #{ataque_criatura} puntos de daño."
-
-  jugador.pv -= ataque_criatura
-  if jugador.pv <= 0
-    jugador.pv = 0
-    jugador.estado
-    return
-  end
-
-  criatura.pv -= ataque_jugador
-  if criatura.pv <= 0
-    criatura.pv = 0
-    exp_ganada = criatura.exp
-    jugador.exp += exp_ganada
-    puts "¡#{jugador.nombre} ha asesinado a #{criatura.nombre}!"
-    puts "¡#{jugador.nombre} ha ganado #{exp_ganada} EXP!"
-  end
+  puts jugador
+  puts criatura
 end
 
 # Ejemplo de uso
 jugador = Jugador.new("Fran")
 #jugador.saludar
-jugador.estado
+#puts jugador
 #jugador.mover
 
 rata = Rata.new
-rata.estado
+#puts rata
 
-ejecutar_ataque(jugador, rata)
-jugador.estado
-rata.estado
+combatir(jugador, rata)
 
-nueva_arma = Armas.new("Espada de bronce", [2, 5], 150, 10)
+nueva_arma = Arma.new("Espada de bronce", [2, 5], 150, 10)
 jugador.equipar_arma(nueva_arma)
-jugador.estado
-ejecutar_ataque(jugador, rata)
-jugador.estado
-rata.estado
+puts jugador
+combatir(jugador, rata)
 
-ejecutar_ataque(jugador, rata)
-jugador.estado
-rata.estado
+combatir(jugador, rata)
 
 
 #dragon = Dragon.new
-#puts dragon.attack     # Output: ¡El Dragón ataca con fuerza! Además, escupe fuego.
-#puts dragon.move       # Output: El Dragón vuela majestuosamente.
+#puts dragon.atacar       # Output: ¡El Dragón ataca con fuerza! Además, escupe fuego.
+#puts dragon.movimiento   # Output: El Dragón vuela majestuosamente.
 
-#griffin = Griffin.new
-#puts griffin.attack    # Output: ¡El Grifo ataca con fuerza! Además, araña con sus garras afiladas.
-#puts griffin.move      # Output: El Grifo surca los cielos con elegancia.
+#grifo = Grifo.new
+#puts grifo.atacar        # Output: ¡El Grifo ataca con fuerza! Además, araña con sus garras afiladas.
+#puts grifo.movimiento    # Output: El Grifo surca los cielos con elegancia.
 
-#phoenix = Phoenix.new
-#puts phoenix.attack    # Output: ¡El Fénix ataca con fuerza! Además, golpea con sus alas ardientes.
-#puts phoenix.move
+#fenix = Fenix.new
+#puts fenix.atacar        # Output: ¡El Fénix ataca con fuerza! Además, golpea con sus alas ardientes.
+#puts fenix.movimiento    # Output: El Fénix se eleva en el aire con majestuosidad.

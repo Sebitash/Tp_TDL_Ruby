@@ -1,4 +1,4 @@
-class Armas
+class Arma
   attr_reader :nombre
 
   def initialize(nombre, ataque, durabilidad, desgaste)
@@ -8,7 +8,7 @@ class Armas
     @desgaste = desgaste
   end
 
-  def estado
+  def to_s
     if @durabilidad == Float::INFINITY
       "#{@nombre} | Ataque: #{@ataque[0]}-#{@ataque[1]}"
     else
