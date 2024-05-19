@@ -1,12 +1,13 @@
-require_relative 'equipamiento/arma'
+require_relative 'equipamiento/armas'
 
 class Jugador
   attr_reader :nombre, :pv
 
-  def initialize(nombre, arma = Arma.new("Puños", [1, 2], Float::INFINITY, 0))
+  def initialize(nombre, arma = Punios.new)
     @nombre = nombre
     @pv = 100  # Puntos de vida
     @pm = 100  # Puntos de mana
+    @oro = 0
     @nivel = 1
     @arma = arma
     @exp = 0
@@ -16,7 +17,7 @@ class Jugador
     if @pv <= 0
       "El jugador ha muerto. Fin de la partida."
     else
-      "#{@nombre}: #{@pv}/100 PV | #{@pm}/100 PM | Nivel: #{@nivel} | EXP: #{@exp}/150\nArma equipada: #{@arma.to_s}"
+      "#{@nombre}: #{@pv}/100 PV | #{@pm}/100 PM | Nivel: #{@nivel} | #{@exp}/150 EXP | #{@oro} G\nArma equipada: #{@arma.to_s}"
     end
   end
 

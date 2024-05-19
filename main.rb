@@ -2,7 +2,7 @@ require_relative 'criatura/dragon'
 require_relative 'criatura/grifo'
 require_relative 'criatura/fenix'
 require_relative 'criatura/rata'
-require_relative 'equipamiento/arma'
+require_relative 'equipamiento/armas'
 require_relative 'jugador'
 
 
@@ -25,7 +25,7 @@ rata = Rata.new
 
 combatir(jugador, rata)
 
-nueva_arma = Arma.new("Espada de bronce", [2, 5], 150, 10)
+nueva_arma = EspadaDeBronce.new
 jugador.equipar_arma(nueva_arma)
 puts jugador
 combatir(jugador, rata)
