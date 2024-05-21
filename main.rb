@@ -21,6 +21,7 @@ jugador = Jugador.new("Fran")
 #jugador.mover
 
 rata = Rata.new
+grifo = Grifo.new
 #puts rata
 
 combatir(jugador, rata)
@@ -28,19 +29,14 @@ combatir(jugador, rata)
 nueva_arma = EspadaDeBronce.new
 jugador.equipar_arma(nueva_arma)
 puts jugador
-combatir(jugador, rata)
 
 combatir(jugador, rata)
+combatir(jugador, rata)
 
+combatir(jugador, grifo)
 
-#dragon = Dragon.new
-#puts dragon.atacar       # Output: ¡El Dragón ataca con fuerza! Además, escupe fuego.
-#puts dragon.movimiento   # Output: El Dragón vuela majestuosamente.
+jugador.equipar_arma(EspadaDeHierro.new)
+puts jugador
 
-#grifo = Grifo.new
-#puts grifo.atacar        # Output: ¡El Grifo ataca con fuerza! Además, araña con sus garras afiladas.
-#puts grifo.movimiento    # Output: El Grifo surca los cielos con elegancia.
-
-#fenix = Fenix.new
-#puts fenix.atacar        # Output: ¡El Fénix ataca con fuerza! Además, golpea con sus alas ardientes.
-#puts fenix.movimiento    # Output: El Fénix se eleva en el aire con majestuosidad.
+combatir(jugador, grifo)
+combatir(jugador, grifo)
