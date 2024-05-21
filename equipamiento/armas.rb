@@ -8,6 +8,12 @@ end
 
 class EspadaDeBronce < Arma
   def initialize
-    super("Espada de bronce", [2, 5], 150, 10)
+    super("Espada de bronce", [2, 5], 150, 15)
+  end
+end
+
+class EspadaDeHierro < Arma
+  def initialize
+    super("Espada de hierro", [5, 10], 200, 10)
   end
 end
