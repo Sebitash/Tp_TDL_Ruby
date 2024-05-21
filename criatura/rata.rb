@@ -1,21 +1,14 @@
 require_relative 'criatura'
 
-class Rata
+class Rata < Criatura
   attr_reader :nombre
 
-  include Criatura
-
   def initialize
-    @nombre = 'Rata'
-    @pv = 5
-    @rango_de_ataque = [1, 2]
-    @rango_de_exp = [1, 5]
+    super('Rata', [5, 5], [1, 2], [1, 5], [2, 7])
   end
 
-  private
-
-  def ataque_especifico(objetivo)
-    if @pv <= 0
+  def atacar(objetivo)
+    if @pv[0] <= 0
       return
     end
     if objetivo.pv <= 0
@@ -28,29 +21,18 @@ class Rata
     objetivo.recibir_ataque(ataque)
   end
 
-  def recibir_ataque_especifico(ataque_enemigo)
-    @pv -= ataque_enemigo
+  def recibir_ataque(ataque_enemigo)
+    @pv[0] -= ataque_enemigo
     puts "#{@nombre} recibe #{ataque_enemigo} puntos de daño."
-    if @pv <= 0
-      @pv = 0
-      puts "¡La rata ha muerto!"
+    if @pv[0] <= 0
+      @pv[0] = 0
+      puts "¡La Rata ha muerto!"
     end
-    return @pv
+    return @pv[0]
   end
 
-  def exp_especifico
-    rand(@rango_de_exp[0]..@rango_de_exp[1])
-  end
-
-  def estado_especifico
-    "#{@nombre}: #{@pv}/5 PV"
-  end
-
-  def movimiento_especifico
+  def movimiento
     "La rata se mueve velozmente."
   end
 
-  def salud_especifica
-    @pv
-  end
 end
