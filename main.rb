@@ -4,39 +4,68 @@ require_relative 'criatura/fenix'
 require_relative 'criatura/rata'
 require_relative 'equipamiento/armas'
 require_relative 'jugador'
+require_relative 'game.rb'
 
+# Configuración de la ventana
+set title: "Prueba Tiny Dungeon"
+set width: 480
+set height: 320
 
-def combatir(jugador, criatura)
-  jugador.atacar(criatura)
-  criatura.atacar(jugador)
+# Crear una instancia del jugador
+player = Jugador.new("Player")
 
-  puts jugador
-  puts criatura
+# Crear una instancia del juego y pasarle el jugador
+game = Game.new(player)
+song = Music.new('dungeon.mp3')
+song.volume = 30
+song.play
+update do
+  clear
+
+  camera_x, camera_y = game.move_camera
+  game.draw_mapa(camera_x, camera_y)
 end
 
-# Ejemplo de uso
-jugador = Jugador.new("Fran")
-#jugador.saludar
-#puts jugador
-#jugador.mover
+on :key_held do |event|
+  game.handle_movement(event.key)
+  sleep(0.03)
+end
 
-rata = Rata.new
-grifo = Grifo.new
-#puts rata
+show
 
-combatir(jugador, rata)
+# def combatir(jugador, criatura)
+#   jugador.atacar(criatura)
+#   criatura.atacar(jugador)
 
-nueva_arma = EspadaDeBronce.new
-jugador.equipar_arma(nueva_arma)
-puts jugador
+#   puts jugador
+#   puts criatura
+# end
 
-combatir(jugador, rata)
-combatir(jugador, rata)
+# # Ejemplo de uso
+# jugador = Jugador.new("Fran")
+# #jugador.saludar
+# #puts jugador
+# #jugador.mover
 
-combatir(jugador, grifo)
+# rata = Rata.new
+# grifo = Grifo.new
+# #puts rata
 
-jugador.equipar_arma(EspadaDeHierro.new)
-puts jugador
+# combatir(jugador, rata)
 
-combatir(jugador, grifo)
-combatir(jugador, grifo)
+# nueva_arma = EspadaDeBronce.new
+# jugador.equipar_arma(nueva_arma)
+# puts jugador
+
+# combatir(jugador, rata)
+# combatir(jugador, rata)
+
+# combatir(jugador, grifo)
+
+# jugador.equipar_arma(EspadaDeHierro.new)
+# puts jugador
+
+# combatir(jugador, grifo)
+# combatir(jugador, grifo)
+
+

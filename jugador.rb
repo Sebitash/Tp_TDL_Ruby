@@ -13,6 +13,9 @@ class Jugador
     @exp = [0, 150]
   end
 
+  def draw(x, y, size)
+    Image.new('tiles/player_floor.png', x: x, y: y, width: size, height: size)
+  end
   def to_s
     if @pv[0] <= 0
       "El jugador ha muerto. Fin de la partida."
@@ -69,5 +72,4 @@ class Jugador
   def movimiento
     puts "#{@nombre} se desplaza por la mazmorra cautelosamente."
   end
-
 end
