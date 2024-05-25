@@ -1,5 +1,6 @@
 class Criatura
   attr_reader :nombre
+  attr_accessor :x, :y
 
   def initialize(nombre, pv, rango_de_ataque, rango_de_exp, rango_de_oro)
     @nombre = nombre
@@ -7,6 +8,8 @@ class Criatura
     @rango_de_ataque = rango_de_ataque
     @rango_de_exp = rango_de_exp
     @rango_de_oro = rango_de_oro
+    @x = 0
+    @y = 0
   end
 
   def to_s
