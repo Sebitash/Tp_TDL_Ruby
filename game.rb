@@ -22,6 +22,7 @@ class Game
     ]
     @player_x = 1
     @player_y = 1
+    @game_over = false
     crear_criaturas
   end
 
@@ -71,15 +72,17 @@ class Game
                end
       Image.new(imagen, x: x, y: y, width: TILE_SIZE, height: TILE_SIZE)
     end
-    if @player.pv > 0
-      @player.draw((@player_x - camera_x) * TILE_SIZE, (@player_y - camera_y) * TILE_SIZE, TILE_SIZE)
-    else
+    if @game_over
+      Text.new('Moriste', x: Window.width / 2 - 50, y: Window.height / 2 - 20, size: 30, color: 'red')
       Image.new('tiles/floor.png', x: (@player_x - camera_x) * TILE_SIZE, y: (@player_y - camera_y) * TILE_SIZE, width: TILE_SIZE, height: TILE_SIZE)
+    else
+      @player.draw((@player_x - camera_x) * TILE_SIZE, (@player_y - camera_y) * TILE_SIZE, TILE_SIZE) if @player.pv > 0
     end
   end
   def check_player_alive
     # Verificar si el jugador está muerto y eliminarlo de la lista de criaturas si es así
     if @player.pv <= 0
+      @game_over = true
       @player_x = -1  # Mover al jugador fuera del mapa
       @player_y = -1
     end
@@ -113,9 +116,17 @@ class Game
       if @mapa[@player_y + 1][@player_x] == '0'
         @player_y += 1
       end
+    when 'f'
+      
     end
     sleep(0.02)
   end
+  def manejo_ataque
+    @criaturas.each do |criatura|
+      if (criatura.x - @player_x).abs <= 1 && (criatura.y - @player_y).abs <= 1
+        if criatura.x == @player_x || criatura.y == @player_y
+          @player.atacar(criatura)
+          puts "La vida del jugador es #{@player.pv}"
   def check_criatura_attacks
     @criaturas.each do |criatura|
       # Verificar si el jugador está vivo y ha pasado suficiente tiempo desde el último ataque de la rata
