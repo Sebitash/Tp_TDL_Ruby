@@ -22,6 +22,7 @@ class Game
     ]
     @player_x = 1
     @player_y = 1
+    @game_over = false
     crear_criaturas
   end
 
@@ -71,16 +72,30 @@ class Game
                end
       Image.new(imagen, x: x, y: y, width: TILE_SIZE, height: TILE_SIZE)
     end
-    if @player.pv > 0
-      @player.draw((@player_x - camera_x) * TILE_SIZE, (@player_y - camera_y) * TILE_SIZE, TILE_SIZE)
-    else
+    if @game_over
+      Text.new('Moriste', x: Window.width / 2 - 90, y: Window.height / 2 - 50,
+      style: 'bold',size: 50, color: 'red')
+      Text.new('Fin del juego', x:Window.width / 2 - 150, y: Window.height / 2 + 40, 
+      style: 'bold',size: 50, color: 'red')
       Image.new('tiles/floor.png', x: (@player_x - camera_x) * TILE_SIZE, y: (@player_y - camera_y) * TILE_SIZE, width: TILE_SIZE, height: TILE_SIZE)
+    else
+      @player.draw((@player_x - camera_x) * TILE_SIZE, (@player_y - camera_y) * TILE_SIZE, TILE_SIZE) if @player.pv > 0
+    end
+  end
+  def check_criaturas_muertas
+    @criaturas.reject! do |criatura|
+      if criatura.pv <= 0
+        @mapa[criatura.y][criatura.x] = '0'
+        true  
+      else
+        false
+      end
     end
   end
   def check_player_alive
-    # Verificar si el jugador está muerto y eliminarlo de la lista de criaturas si es así
     if @player.pv <= 0
-      @player_x = -1  # Mover al jugador fuera del mapa
+      @game_over = true
+      @player_x = -1  
       @player_y = -1
     end
   end
@@ -113,8 +128,19 @@ class Game
       if @mapa[@player_y + 1][@player_x] == '0'
         @player_y += 1
       end
+    when 'f'
+      manejo_ataque
     end
     sleep(0.02)
+  end
+  def manejo_ataque
+    @criaturas.each do |criatura|
+      if (criatura.x - @player_x).abs <= 1 && (criatura.y - @player_y).abs <= 1
+        if criatura.x == @player_x || criatura.y == @player_y
+          @player.atacar(criatura)
+        end
+      end
+    end
   end
   def check_criatura_attacks
     @criaturas.each do |criatura|
