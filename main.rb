@@ -23,6 +23,7 @@ update do
   game.check_player_alive
   camera_x, camera_y = game.move_camera
   game.draw_mapa(camera_x, camera_y)
+  game.check_criaturas_muertas
   game.check_criatura_attacks
 end
 

@@ -82,6 +82,16 @@ class Game
       @player.draw((@player_x - camera_x) * TILE_SIZE, (@player_y - camera_y) * TILE_SIZE, TILE_SIZE) if @player.pv > 0
     end
   end
+  def check_criaturas_muertas
+    @criaturas.reject! do |criatura|
+      if criatura.pv <= 0
+        @mapa[criatura.y][criatura.x] = '0'
+        true  
+      else
+        false
+      end
+    end
+  end
   def check_player_alive
     if @player.pv <= 0
       @game_over = true
