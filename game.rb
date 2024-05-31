@@ -24,14 +24,6 @@ class Game
     @player_y = 1
     @game_over = false
 
-    @menu = true
-    @game = false
-
-    @menu_texto1 = Text.new('Tiny Dungeon', x: Window.width / 2 - 90, y: Window.height / 2 - 50,
-    style: 'bold',size: 50, color: 'red')
-    @menu_texto2 = Text.new('Bienvenido', x:Window.width / 2 - 150, y: Window.height / 2 + 40,
-    style: 'bold',size: 50, color: 'red')
-
     crear_criaturas
   end
 
@@ -57,11 +49,6 @@ class Game
   end
 
   def draw_mapa(camera_x, camera_y)
-    @menu_texto1 = Text.new('Tiny Dungeon', x: Window.width / 2 - 90, y: Window.height / 2 - 50,
-    style: 'bold',size: 50, color: 'red')
-    @menu_texto2 = Text.new('Bienvenido', x:Window.width / 2 - 150, y: Window.height / 2 + 40,
-    style: 'bold',size: 50, color: 'red')
-
     @mapa.each_with_index do |row, y|
       row.each_with_index do |tile, x|
         if tile == '1'
@@ -125,52 +112,30 @@ class Game
   end
 
   def handle_movement(key)
-    if key == 'escape'
-      @menu = true
-      @game = false
-    end
-    if @menu
-      case key
-      when 'y'
-        @menu_texto1 = Text.new('Tiny Dungeon', x: Window.width / 2 - 90, y: Window.height / 2 - 50,
-        style: 'bold',size: 50, color: 'red')
-        @menu_texto2 = Text.new('Bienvenido', x:Window.width / 2 - 150, y: Window.height / 2 + 40,
-        style: 'bold',size: 50, color: 'red')
-        @menu = false
-        @game = true
+    case key
+    when 'left'
+      if @mapa[@player_y][@player_x - 1] == '0'
+        @player_x -= 1
       end
-
-      if key == 'q'
-        close
+    when 'right'
+      if @mapa[@player_y][@player_x + 1] == '0'
+        @player_x += 1
       end
-    end
-    if @game
-      @menu_texto1.remove
-      @menu_texto2.remove
-      case key
-      when 'left'
-        if @mapa[@player_y][@player_x - 1] == '0'
-          @player_x -= 1
-        end
-      when 'right'
-        if @mapa[@player_y][@player_x + 1] == '0'
-          @player_x += 1
-        end
-      when 'up'
-        if @mapa[@player_y - 1][@player_x] == '0'
-          @player_y -= 1
-        end
-      when 'down'
-        if @mapa[@player_y + 1][@player_x] == '0'
-          @player_y += 1
-        end
-      when 'f'
-        manejo_ataque
-        sleep(0.5)
+    when 'up'
+      if @mapa[@player_y - 1][@player_x] == '0'
+        @player_y -= 1
       end
+    when 'down'
+      if @mapa[@player_y + 1][@player_x] == '0'
+        @player_y += 1
+      end
+    when 'f'
+      manejo_ataque
+      sleep(0.5)
     end
     sleep(0.02)
   end
+
   def manejo_ataque
     @criaturas.each do |criatura|
       if (criatura.x - @player_x).abs <= 1 && (criatura.y - @player_y).abs <= 1
@@ -180,6 +145,7 @@ class Game
       end
     end
   end
+
   def check_criatura_attacks
     @criaturas.each do |criatura|
       # Verificar si el jugador está vivo y ha pasado suficiente tiempo desde el último ataque de la rata
