@@ -5,6 +5,7 @@ require_relative 'criatura/rata'
 require_relative 'equipamiento/armas'
 require_relative 'jugador'
 require_relative 'game.rb'
+require_relative 'menu.rb'
 
 # Configuración de la ventana
 set title: "Prueba Tiny Dungeon"
@@ -14,20 +15,39 @@ set height: 320
 # Crear una instancia del jugador
 player = Jugador.new("Player")
 
+# Crear una instancia del menu
+menu = Menu.new
+
 # Crear una instancia del juego y pasarle el jugador
 game = Game.new(player)
 
 update do
   clear
-  game.check_player_alive
-  camera_x, camera_y = game.move_camera
-  game.draw_mapa(camera_x, camera_y)
-  game.check_criaturas_muertas
-  game.check_criatura_attacks
+
+  if menu.esta_abierto
+    menu.abrir_menu
+  else
+    menu.cerrar_menu
+  end
+
+  if menu.esta_abierto == false
+    game.check_player_alive
+    camera_x, camera_y = game.move_camera
+    game.draw_mapa(camera_x, camera_y)
+    game.check_criaturas_muertas
+    game.check_criatura_attacks
+  end
 end
 
 on :key_held do |event|
-  game.handle_movement(event.key)
+  if event.key == 'escape'
+    menu.abrir_menu
+  elsif menu.esta_abierto == false
+    game.handle_movement(event.key)
+    sleep(0.05)
+  else
+    menu.gestionar_movimiento(event.key)
+  end
   sleep(0.03)
 end
 
