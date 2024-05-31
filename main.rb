@@ -16,9 +16,8 @@ player = Jugador.new("Player")
 
 # Crear una instancia del juego y pasarle el jugador
 game = Game.new(player)
+
 update do
-  
-  
   clear
   game.check_player_alive
   camera_x, camera_y = game.move_camera
@@ -68,5 +67,3 @@ show
 
 # combatir(jugador, grifo)
 # combatir(jugador, grifo)
-
-

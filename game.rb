@@ -23,6 +23,15 @@ class Game
     @player_x = 1
     @player_y = 1
     @game_over = false
+
+    @menu = true
+    @game = false
+
+    @menu_texto1 = Text.new('Tiny Dungeon', x: Window.width / 2 - 90, y: Window.height / 2 - 50,
+    style: 'bold',size: 50, color: 'red')
+    @menu_texto2 = Text.new('Bienvenido', x:Window.width / 2 - 150, y: Window.height / 2 + 40,
+    style: 'bold',size: 50, color: 'red')
+
     crear_criaturas
   end
 
@@ -48,6 +57,11 @@ class Game
   end
 
   def draw_mapa(camera_x, camera_y)
+    @menu_texto1 = Text.new('Tiny Dungeon', x: Window.width / 2 - 90, y: Window.height / 2 - 50,
+    style: 'bold',size: 50, color: 'red')
+    @menu_texto2 = Text.new('Bienvenido', x:Window.width / 2 - 150, y: Window.height / 2 + 40,
+    style: 'bold',size: 50, color: 'red')
+
     @mapa.each_with_index do |row, y|
       row.each_with_index do |tile, x|
         if tile == '1'
@@ -75,7 +89,7 @@ class Game
     if @game_over
       Text.new('Moriste', x: Window.width / 2 - 90, y: Window.height / 2 - 50,
       style: 'bold',size: 50, color: 'red')
-      Text.new('Fin del juego', x:Window.width / 2 - 150, y: Window.height / 2 + 40, 
+      Text.new('Fin del juego', x:Window.width / 2 - 150, y: Window.height / 2 + 40,
       style: 'bold',size: 50, color: 'red')
       Image.new('tiles/floor.png', x: (@player_x - camera_x) * TILE_SIZE, y: (@player_y - camera_y) * TILE_SIZE, width: TILE_SIZE, height: TILE_SIZE)
     else
@@ -86,7 +100,7 @@ class Game
     @criaturas.reject! do |criatura|
       if criatura.pv <= 0
         @mapa[criatura.y][criatura.x] = '0'
-        true  
+        true
       else
         false
       end
@@ -95,11 +109,11 @@ class Game
   def check_player_alive
     if @player.pv <= 0
       @game_over = true
-      @player_x = -1  
+      @player_x = -1
       @player_y = -1
     end
   end
-  
+
   def move_camera
     half_screen_tiles_x = (Window.width / TILE_SIZE / 2).floor
     half_screen_tiles_y = (Window.height / TILE_SIZE / 2).floor
@@ -111,25 +125,49 @@ class Game
   end
 
   def handle_movement(key)
-    case key
-    when 'left'
-      if @mapa[@player_y][@player_x - 1] == '0'
-        @player_x -= 1
+    if key == 'escape'
+      @menu = true
+      @game = false
+    end
+    if @menu
+      case key
+      when 'y'
+        @menu_texto1 = Text.new('Tiny Dungeon', x: Window.width / 2 - 90, y: Window.height / 2 - 50,
+        style: 'bold',size: 50, color: 'red')
+        @menu_texto2 = Text.new('Bienvenido', x:Window.width / 2 - 150, y: Window.height / 2 + 40,
+        style: 'bold',size: 50, color: 'red')
+        @menu = false
+        @game = true
       end
-    when 'right'
-      if @mapa[@player_y][@player_x + 1] == '0'
-        @player_x += 1
+
+      if key == 'q'
+        close
       end
-    when 'up'
-      if @mapa[@player_y - 1][@player_x] == '0'
-        @player_y -= 1
+    end
+    if @game
+      @menu_texto1.remove
+      @menu_texto2.remove
+      case key
+      when 'left'
+        if @mapa[@player_y][@player_x - 1] == '0'
+          @player_x -= 1
+        end
+      when 'right'
+        if @mapa[@player_y][@player_x + 1] == '0'
+          @player_x += 1
+        end
+      when 'up'
+        if @mapa[@player_y - 1][@player_x] == '0'
+          @player_y -= 1
+        end
+      when 'down'
+        if @mapa[@player_y + 1][@player_x] == '0'
+          @player_y += 1
+        end
+      when 'f'
+        manejo_ataque
+        sleep(0.5)
       end
-    when 'down'
-      if @mapa[@player_y + 1][@player_x] == '0'
-        @player_y += 1
-      end
-    when 'f'
-      manejo_ataque
     end
     sleep(0.02)
   end
@@ -149,7 +187,7 @@ class Game
         # Verificar si el jugador y la criatura están en la misma fila o columna
         if criatura.x == @player_x || criatura.y == @player_y
           criatura.atacar(@player)
-          puts "La vida del jugador es #{@player.pv}" 
+          puts "La vida del jugador es #{@player.pv}"
 
           @last_attack_time = Time.now  # Actualizar el tiempo del último ataque
         end
