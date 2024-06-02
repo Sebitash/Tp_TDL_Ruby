@@ -9,17 +9,7 @@ class Game
   def initialize(player)
     @player = player
     @last_attack_time = Time.now
-    @mapa = [
-      ['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'],
-      ['1', '0', '0', '0', '0', '1', '0', '0', '0', '1', '0', '0', '0', '0', '1'],
-      ['1', '0', '1', '1', '0', '1', '0', '1', '0', '1', '0', '0', '0', '0', '1'],
-      ['1', '0', '0', '0', '0', '0', '0', '1', '0', '0', '0', '0', '0', '0', '1'],
-      ['1', '1', '1', '0', '1', '1', '0', '1', '1', '1', '1', '1', '1', '0', '1'],
-      ['1', '0', '0', '0', '0', '0', '0', '1', '0', '0', '0', '0', '1', '0', '1'],
-      ['1', '0', '0', '0', '0', '1', '1', '1', '0', '0', '1', '0', '1', '2', '1'],
-      ['1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1'],
-      ['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1']
-    ]
+    @mapa = cargar_mapa()
     @player_x = 1
     @player_y = 1
     @game_over = false
@@ -45,6 +35,17 @@ class Game
         end
       end
     end
+  end
+
+  def cargar_mapa()
+    matriz = []
+
+    File.foreach('mapas_niveles/nivel1.txt') do |linea|
+      fila = linea.split.map(&:to_s)
+      matriz << fila
+    end
+
+    matriz
   end
 
   def draw_mapa(camera_x, camera_y)
@@ -75,7 +76,7 @@ class Game
     if @game_over
       Text.new('Moriste', x: Window.width / 2 - 90, y: Window.height / 2 - 50,
       style: 'bold',size: 50, color: 'red')
-      Text.new('Fin del juego', x:Window.width / 2 - 150, y: Window.height / 2 + 40, 
+      Text.new('Fin del juego', x:Window.width / 2 - 150, y: Window.height / 2 + 40,
       style: 'bold',size: 50, color: 'red')
       Image.new('tiles/floor.png', x: (@player_x - camera_x) * TILE_SIZE, y: (@player_y - camera_y) * TILE_SIZE, width: TILE_SIZE, height: TILE_SIZE)
     else
@@ -86,7 +87,7 @@ class Game
     @criaturas.reject! do |criatura|
       if criatura.pv <= 0
         @mapa[criatura.y][criatura.x] = '0'
-        true  
+        true
       else
         false
       end
@@ -95,11 +96,11 @@ class Game
   def check_player_alive
     if @player.pv <= 0
       @game_over = true
-      @player_x = -1  
+      @player_x = -1
       @player_y = -1
     end
   end
-  
+
   def move_camera
     half_screen_tiles_x = (Window.width / TILE_SIZE / 2).floor
     half_screen_tiles_y = (Window.height / TILE_SIZE / 2).floor
@@ -149,7 +150,7 @@ class Game
         # Verificar si el jugador y la criatura están en la misma fila o columna
         if criatura.x == @player_x || criatura.y == @player_y
           criatura.atacar(@player)
-          puts "La vida del jugador es #{@player.pv}" 
+          puts "La vida del jugador es #{@player.pv}"
 
           @last_attack_time = Time.now  # Actualizar el tiempo del último ataque
         end
