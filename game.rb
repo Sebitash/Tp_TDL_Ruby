@@ -40,7 +40,7 @@ class Game
   def cargar_mapa()
     matriz = []
 
-    File.foreach('mapas_niveles/nivel1.txt') do |linea|
+    File.foreach('mapas_niveles/nivel2.txt') do |linea|
       fila = linea.split.map(&:to_s)
       matriz << fila
     end
