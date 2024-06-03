@@ -8,6 +8,11 @@ require_relative 'game.rb'
 require_relative 'menu.rb'
 
 # Configuración de la ventana
+set title: "Prueba Tiny Dungeon"
+set width: 480
+set height: 320
+
+# Configuración de la ventana
 ventana = Window.new
 ventana.set(title: "Tiny Dungeon", width: 480, height: 320)
 
