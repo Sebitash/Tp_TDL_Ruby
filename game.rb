@@ -19,6 +19,7 @@ class Game
     @player_x = 1
     @player_y = 1
     @game_over = false
+
     crear_criaturas
   end
 
@@ -147,9 +148,11 @@ class Game
       end
     when 'f'
       manejo_ataque
+      sleep(0.5)
     end
     sleep(0.02)
   end
+
   def manejo_ataque
     @criaturas.each do |criatura|
       if (criatura.x - @player_x).abs <= 1 && (criatura.y - @player_y).abs <= 1
@@ -159,6 +162,7 @@ class Game
       end
     end
   end
+
   def check_criatura_attacks
     @criaturas.each do |criatura|
       # Verificar si el jugador está vivo y ha pasado suficiente tiempo desde el último ataque de la rata
