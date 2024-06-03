@@ -9,11 +9,13 @@ class Game
   def initialize(player)
     @player = player
     @last_attack_time = Time.now
+    @numero_nivel_actual = 1
     @mapa = {
       1 => cargar_mapa("mapas_niveles/nivel1.txt"),
       2 => cargar_mapa("mapas_niveles/nivel2.txt"),
-      3 => cargar_mapa("mapas_niveles/nivel3.txt")
-    }[1]
+      3 => cargar_mapa("mapas_niveles/nivel3.txt"),
+    }
+    @mapa_nivel_actual = @mapa[@numero_nivel_actual]
     @player_x = 1
     @player_y = 1
     @game_over = false
@@ -27,8 +29,9 @@ class Game
       '4' => 'Fenix',
       '5' => 'Grifo'
     }
+
     @criaturas = []
-    @mapa.each_with_index do |row, y|
+    @mapa_nivel_actual.each_with_index do |row, y|
       row.each_with_index do |tile, x|
         if criatura_tipos.key?(tile)
           tipo = criatura_tipos[tile]
@@ -53,7 +56,7 @@ class Game
   end
 
   def draw_mapa(camera_x, camera_y)
-    @mapa.each_with_index do |row, y|
+    @mapa_nivel_actual.each_with_index do |row, y|
       row.each_with_index do |tile, x|
         if tile == '1'
           Image.new('tiles/wall.png', x: (x - camera_x) * TILE_SIZE, y: (y - camera_y) * TILE_SIZE, width: TILE_SIZE, height: TILE_SIZE)
@@ -90,13 +93,22 @@ class Game
   def check_criaturas_muertas
     @criaturas.reject! do |criatura|
       if criatura.pv <= 0
-        @mapa[criatura.y][criatura.x] = '0'
+        @mapa_nivel_actual[criatura.y][criatura.x] = '0'
         true
       else
         false
       end
     end
+
+    if @criaturas.empty?
+      @numero_nivel_actual += 1
+      @mapa_nivel_actual = @mapa[@numero_nivel_actual]
+      @player_x = 1
+      @player_y = 1
+      crear_criaturas
+    end
   end
+
   def check_player_alive
     if @player.pv <= 0
       @game_over = true
@@ -109,8 +121,8 @@ class Game
     half_screen_tiles_x = (Window.width / TILE_SIZE / 2).floor
     half_screen_tiles_y = (Window.height / TILE_SIZE / 2).floor
 
-    offset_x = [[@player_x - half_screen_tiles_x, 0].max, @mapa[0].size - Window.width / TILE_SIZE].min
-    offset_y = [[@player_y - half_screen_tiles_y, 0].max, @mapa[1].size - Window.height / TILE_SIZE].min
+    offset_x = [[@player_x - half_screen_tiles_x, 0].max, @mapa_nivel_actual[0].size - Window.width / TILE_SIZE].min
+    offset_y = [[@player_y - half_screen_tiles_y, 0].max, @mapa_nivel_actual[1].size - Window.height / TILE_SIZE].min
 
     return offset_x, offset_y
   end
@@ -118,19 +130,19 @@ class Game
   def handle_movement(key)
     case key
     when 'left'
-      if @mapa[@player_y][@player_x - 1] == '0'
+      if @mapa_nivel_actual[@player_y][@player_x - 1] == '0'
         @player_x -= 1
       end
     when 'right'
-      if @mapa[@player_y][@player_x + 1] == '0'
+      if @mapa_nivel_actual[@player_y][@player_x + 1] == '0'
         @player_x += 1
       end
     when 'up'
-      if @mapa[@player_y - 1][@player_x] == '0'
+      if @mapa_nivel_actual[@player_y - 1][@player_x] == '0'
         @player_y -= 1
       end
     when 'down'
-      if @mapa[@player_y + 1][@player_x] == '0'
+      if @mapa_nivel_actual[@player_y + 1][@player_x] == '0'
         @player_y += 1
       end
     when 'f'
