@@ -9,7 +9,11 @@ class Game
   def initialize(player)
     @player = player
     @last_attack_time = Time.now
-    @mapa = cargar_mapa()
+    @mapa = {
+      1 => cargar_mapa("mapas_niveles/nivel1.txt"),
+      2 => cargar_mapa("mapas_niveles/nivel2.txt"),
+      3 => cargar_mapa("mapas_niveles/nivel3.txt")
+    }[1]
     @player_x = 1
     @player_y = 1
     @game_over = false
@@ -37,10 +41,10 @@ class Game
     end
   end
 
-  def cargar_mapa()
+  def cargar_mapa(archivo)
     matriz = []
 
-    File.foreach('mapas_niveles/nivel3.txt') do |linea|
+    File.foreach(archivo) do |linea|
       fila = linea.split.map(&:to_s)
       matriz << fila
     end
@@ -106,7 +110,7 @@ class Game
     half_screen_tiles_y = (Window.height / TILE_SIZE / 2).floor
 
     offset_x = [[@player_x - half_screen_tiles_x, 0].max, @mapa[0].size - Window.width / TILE_SIZE].min
-    offset_y = [[@player_y - half_screen_tiles_y, 0].max, @mapa.size - Window.height / TILE_SIZE].min
+    offset_y = [[@player_y - half_screen_tiles_y, 0].max, @mapa[1].size - Window.height / TILE_SIZE].min
 
     return offset_x, offset_y
   end
@@ -156,6 +160,5 @@ class Game
         end
       end
     end
-
   end
 end
