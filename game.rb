@@ -4,9 +4,11 @@ require_relative 'creador_criaturas'
 TILE_SIZE = 40
 
 class Game
-  attr_accessor :player_x, :player_y
+  attr_accessor :player_x, :player_y, :ventana
 
-  def initialize(player)
+  def initialize(player, ventana)
+    @ventana = ventana
+
     @player = player
     @last_attack_time = Time.now
     @numero_nivel_actual = 1
@@ -82,9 +84,9 @@ class Game
       Image.new(imagen, x: x, y: y, width: TILE_SIZE, height: TILE_SIZE)
     end
     if @game_over
-      Text.new('Moriste', x: Window.width / 2 - 90, y: Window.height / 2 - 50,
+      Text.new('Moriste', x: @ventana.width / 2 - 90, y: @ventana.height / 2 - 50,
       style: 'bold',size: 50, color: 'red')
-      Text.new('Fin del juego', x:Window.width / 2 - 150, y: Window.height / 2 + 40,
+      Text.new('Fin del juego', x:@ventana.width / 2 - 150, y: @ventana.height / 2 + 40,
       style: 'bold',size: 50, color: 'red')
       Image.new('tiles/floor.png', x: (@player_x - camera_x) * TILE_SIZE, y: (@player_y - camera_y) * TILE_SIZE, width: TILE_SIZE, height: TILE_SIZE)
     else
@@ -119,11 +121,11 @@ class Game
   end
 
   def move_camera
-    half_screen_tiles_x = (Window.width / TILE_SIZE / 2).floor
-    half_screen_tiles_y = (Window.height / TILE_SIZE / 2).floor
+    half_screen_tiles_x = (@ventana.width / TILE_SIZE / 2).floor
+    half_screen_tiles_y = (@ventana.height / TILE_SIZE / 2).floor
 
-    offset_x = [[@player_x - half_screen_tiles_x, 0].max, @mapa_nivel_actual[0].size - Window.width / TILE_SIZE].min
-    offset_y = [[@player_y - half_screen_tiles_y, 0].max, @mapa_nivel_actual[1].size - Window.height / TILE_SIZE].min
+    offset_x = [[@player_x - half_screen_tiles_x, 0].max, @mapa_nivel_actual[0].size - @ventana.width / TILE_SIZE].min
+    offset_y = [[@player_y - half_screen_tiles_y, 0].max, @mapa_nivel_actual[1].size - @ventana.height / TILE_SIZE].min
 
     return offset_x, offset_y
   end
