@@ -12,18 +12,21 @@ set title: "Prueba Tiny Dungeon"
 set width: 480
 set height: 320
 
+# Configuración de la ventana
+ventana = Window.new
+ventana.set(title: "Tiny Dungeon", width: 480, height: 320)
+
 # Crear una instancia del jugador
 player = Jugador.new("Player")
 
-# Crear una instancia del menu
-menu = Menu.new
+# Crear una instancia del juego y pasarle el jugador y la ventana
+game = Game.new(player, ventana)
 
-# Crear una instancia del juego y pasarle el jugador
-game = Game.new(player)
+# Crear una instancia del menu y la ventana
+menu = Menu.new(ventana)
+
 
 update do
-
-
   clear
 
   if menu.esta_abierto
