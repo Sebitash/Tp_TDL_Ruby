@@ -1,8 +1,8 @@
 # Tp_TDL_Ruby
 
-## Instalacion 
+## Instalación 
 
-Para poder correr el proyecto primero se necesita instalar Ruby a la ultima version:
+Para poder correr el proyecto, primero se necesita instalar Ruby a la última version:
 
 ```bash
 sudo apt upgrade
@@ -12,26 +12,25 @@ sudo apt upgrade
 sudo apt install ruby
 ```
 
-Para ver que se instalo bien ruby basta con hacer
+Para ver que se instaló bien Ruby, basta con hacer
 
 ```bash
 ruby -v
 ```
 
-Y posteriormente, se necesitara la gema Ruby2D
-Para eso seguimos lo siguiente
+Y posteriormente, se necesitará la gema Ruby2D. Para eso, hacemos lo siguiente:
 
 Se instalan unas dependencias antes
 
 https://www.ruby2d.com/learn/linux/#install-packages
 
-Y luego ahi si se podra instalar ruby2d
+Y luego ahi sí se podrá instalar ruby2d
 
 ```bash 
 gem install ruby2d
 ```
 
-Si falla, seguir los pasos se la siguiente pagina y luego volver a correr el ultimo comando
+Si falla, seguir los pasos de la siguiente página y luego volver a correr el último comando
 
 https://www.ruby2d.com/learn/linux/#install-ruby.
 
