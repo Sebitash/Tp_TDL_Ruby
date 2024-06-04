@@ -7,22 +7,17 @@ require_relative 'jugador'
 require_relative 'game.rb'
 require_relative 'menu.rb'
 
-# Configuración de la ventana
 set title: "Prueba Tiny Dungeon"
 set width: 480
 set height: 320
 
-# Configuración de la ventana
 ventana = Window.new
 ventana.set(title: "Tiny Dungeon", width: 480, height: 320)
 
-# Crear una instancia del jugador
 player = Jugador.new("Player")
 
-# Crear una instancia del juego y pasarle el jugador y la ventana
 game = Game.new(player, ventana)
 
-# Crear una instancia del menu y la ventana
 menu = Menu.new(ventana)
 
 
@@ -49,46 +44,12 @@ on :key_held do |event|
     menu.abrir_menu
   elsif menu.esta_abierto == false
     game.handle_movement(event.key)
-    sleep(0.05)
+    sleep(0.02)
   else
     menu.gestionar_movimiento(event.key)
+    sleep(0.03)
   end
-  sleep(0.03)
 end
 
 show
 
-# def combatir(jugador, criatura)
-#   jugador.atacar(criatura)
-#   criatura.atacar(jugador)
-
-#   puts jugador
-#   puts criatura
-# end
-
-# # Ejemplo de uso
-# jugador = Jugador.new("Fran")
-# #jugador.saludar
-# #puts jugador
-# #jugador.mover
-
-# rata = Rata.new
-# grifo = Grifo.new
-# #puts rata
-
-# combatir(jugador, rata)
-
-# nueva_arma = EspadaDeBronce.new
-# jugador.equipar_arma(nueva_arma)
-# puts jugador
-
-# combatir(jugador, rata)
-# combatir(jugador, rata)
-
-# combatir(jugador, grifo)
-
-# jugador.equipar_arma(EspadaDeHierro.new)
-# puts jugador
-
-# combatir(jugador, grifo)
-# combatir(jugador, grifo)

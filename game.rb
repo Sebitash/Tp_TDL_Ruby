@@ -167,14 +167,11 @@ class Game
 
   def check_criatura_attacks
     @criaturas.each do |criatura|
-      # Verificar si el jugador está vivo y ha pasado suficiente tiempo desde el último ataque de la rata
       if @player.pv > 0 && (Time.now - @last_attack_time >= 3) && (criatura.x - @player_x).abs <= 1 && (criatura.y - @player_y).abs <= 1
-        # Verificar si el jugador y la criatura están en la misma fila o columna
         if criatura.x == @player_x || criatura.y == @player_y
           criatura.atacar(@player)
           puts "La vida del jugador es #{@player.pv}"
-
-          @last_attack_time = Time.now  # Actualizar el tiempo del último ataque
+          @last_attack_time = Time.now  
         end
       end
     end
