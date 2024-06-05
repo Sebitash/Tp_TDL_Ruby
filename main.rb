@@ -6,7 +6,6 @@ require_relative 'equipamiento/armas'
 require_relative 'jugador'
 require_relative 'juego.rb'
 require_relative 'menu.rb'
-require 'ruby2d'
 
 set title: "Tiny Dungeon"
 set width: 480
@@ -29,7 +28,7 @@ update do
     menu.cerrar_menu
   end
 
-  if menu.esta_abierto == false
+  if !menu.esta_abierto
     juego.check_player_alive
     camera_x, camera_y = juego.move_camera
     juego.draw_mapa(camera_x, camera_y)
@@ -38,14 +37,14 @@ update do
   end
 end
 
-on :key_held do |event|
-  if event.key == 'escape'
+on :key_held do |evento|
+  if evento.key == 'escape'
     menu.abrir_menu
-  elsif menu.esta_abierto == false
-    juego.handle_movement(event.key)
+  elsif !menu.esta_abierto
+    juego.handle_movement(evento.key)
     sleep(0.05)
   else
-    menu.gestionar_movimiento(event.key)
+    menu.gestionar_movimiento(evento.key)
   end
   sleep(0.03)
 end
