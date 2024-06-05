@@ -16,6 +16,7 @@ ventana.set(
 )
 
 jugador = Jugador.new("Jugador")
+
 juego = Juego.new(
   jugador,
   ventana
