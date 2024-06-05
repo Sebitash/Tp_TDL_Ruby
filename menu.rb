@@ -2,26 +2,15 @@ require 'ruby2d'
 
 class Menu
   def initialize(ventana)
-    @menu_inicio = true
-    @menu = false
-    @controles = false
-    @iniciado = false
-
     @ventana = ventana
-    @fondo = [
-      ['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'],
-      ['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'],
-      ['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'],
-      ['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'],
-      ['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'],
-      ['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'],
-      ['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'],
-      ['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'],
-    ]
+    @menu_inicial = true
+    @menu = false
+    @partida_iniciada = false
+    @controles = false
   end
 
   def esta_abierto
-    @menu || @menu_inicio
+    @menu_inicial || @menu || @controles
   end
 
   def cerrar_menu
@@ -30,20 +19,22 @@ class Menu
 
   def abrir_menu
     @menu = true
+    dibujar_menu
+    dibujar_textos
+  end
 
-    @fondo.each_with_index do |row, y|
-      row.each_with_index do |tile, x|
-        if tile == '1'
-          Image.new('tiles/wall.png', x: x * TILE_SIZE, y: y * TILE_SIZE, width: TILE_SIZE, height: TILE_SIZE)
-        else
-          Image.new('tiles/floor.png', x: x * TILE_SIZE, y: y * TILE_SIZE, width: TILE_SIZE, height: TILE_SIZE)
-        end
+  def dibujar_menu
+    (@ventana.width / TILE_SIZE).times do |x|
+      (@ventana.height / TILE_SIZE).times do |y|
+        Image.new('tiles/wall.png', x: x * TILE_SIZE, y: y * TILE_SIZE, width: TILE_SIZE, height: TILE_SIZE)
       end
     end
+  end
 
+  def dibujar_textos
     @inicio_texto1 = Text.new('Tiny Dungeon', x: @ventana.width / 2 - 190, y: @ventana.height / 2 - 120, z: 1,
     style: 'bold', size: 60, color: 'brown')
-    if @menu_inicio
+    if @menu_inicial
       @inicio_texto2 = Text.new('Presione ENTER para continuar', x:@ventana.width / 2 - 180, y: @ventana.height / 2 + 10, z: 1,
       style: 'bold', size: 25, color: 'brown')
     elsif @controles
@@ -62,7 +53,7 @@ class Menu
       @controles_texto7 = Text.new('Volver [K]', x:@ventana.width / 2 - 220, y: @ventana.height / 2 + 120, z: 1,
       style: 'bold', size: 20, color: 'brown')
     else
-      if @iniciado
+      if @partida_iniciada
         @texto1 = Text.new('Continuar [Y]', x:@ventana.width / 2 - 150, y: @ventana.height / 2 - 10, z: 1,
         style: 'bold', size: 25, color: 'brown')
       else
@@ -81,15 +72,15 @@ class Menu
     when 'escape'
       if self.esta_abierto
         self.abrir_menu
-      elsif @iniciado
+      elsif @partida_iniciada
         self.cerrar_menu
       end
     when 'return'
-      @menu_inicio = false
+      @menu_inicial = false
       self.abrir_menu
     when 'y'
       self.cerrar_menu
-      @iniciado = true
+      @partida_iniciada = true
     when 'k'
       if @controles
         @controles = false
