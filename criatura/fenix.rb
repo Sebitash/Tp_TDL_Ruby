@@ -23,9 +23,9 @@ class Fenix < Criatura
       return
     end
 
-    ataque = rand(@rango_de_ataque[0]..@rango_de_ataque[1])
+    daño = rand(@rango_de_daño[0]..@rango_de_daño[1])
     puts "¡El Fénix ataca con fuerza! Además, golpea con sus alas ardientes."
-    objetivo.recibir_ataque(ataque)
+    objetivo.recibir_ataque(daño)
   end
 
   def recibir_ataque(puntos_de_daño)

@@ -23,9 +23,9 @@ class Grifo < Criatura
       return
     end
 
-    ataque = rand(@rango_de_ataque[0]..@rango_de_ataque[1])
+    daño = rand(@rango_de_daño[0]..@rango_de_daño[1])
     puts "¡El Grifo ataca con fuerza! Además, araña con sus garras afiladas."
-    objetivo.recibir_ataque(ataque)
+    objetivo.recibir_ataque(daño)
   end
 
   def recibir_ataque(puntos_de_daño)

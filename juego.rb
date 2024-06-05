@@ -38,7 +38,7 @@ class Juego
       row.each_with_index do |tile, x|
         if criatura_tipos.key?(tile)
           tipo = criatura_tipos[tile]
-          criatura = CriaturaFactory.crear(tipo)
+          criatura = CreadorCriaturas.crear(tipo)
           criatura.x = x
           criatura.y = y
           @criaturas << criatura
