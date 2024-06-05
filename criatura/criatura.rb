@@ -13,7 +13,8 @@ class Criatura
   end
 
   def to_s
-    "#{@nombre}: #{@pv[0]}/#{@pv[1]} PV | Ataque: #{@rango_de_ataque[0]}-#{@rango_de_ataque[1]}"
+    "#{@nombre}: #{@pv[0]}/#{@pv[1]} PV |
+    Ataque: #{@rango_de_ataque[0]}-#{@rango_de_ataque[1]}"
   end
 
   def pv

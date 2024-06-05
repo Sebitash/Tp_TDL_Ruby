@@ -4,13 +4,20 @@ class Dragon < Criatura
   attr_reader :nombre
 
   def initialize
-    super('Dragón', [300, 300], [34, 44], [89, 134], [213, 341])
+    super(
+      'Dragón',
+      [300, 300],
+      [34, 44],
+      [89, 134],
+      [213, 341]
+    )
   end
 
   def atacar(objetivo)
     if @pv[0] <= 0
       return
     end
+
     if objetivo.pv <= 0
       puts "El jugador ya esta muerto."
       return
@@ -21,13 +28,16 @@ class Dragon < Criatura
     objetivo.recibir_ataque(ataque)
   end
 
-  def recibir_ataque(ataque_enemigo)
-    @pv[0] -= ataque_enemigo
-    puts "#{@nombre} recibe #{ataque_enemigo} puntos de daño."
+  def recibir_ataque(puntos_de_daño)
+    @pv[0] -= puntos_de_daño
+
+    puts "#{@nombre} recibe #{puntos_de_daño} puntos de daño."
+
     if @pv[0] <= 0
       @pv[0] = 0
       puts "¡El Dragón ha muerto!"
     end
+
     return @pv[0]
   end
 
