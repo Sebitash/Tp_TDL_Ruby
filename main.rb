@@ -46,7 +46,7 @@ on :key_held do |evento|
   if evento.key == 'escape'
     menu.abrir_menu
   elsif !menu.esta_abierto
-    juego.handle_movement(evento.key)
+    juego.manejar_movimiento(evento.key)
     sleep(0.05)
   else
     menu.gestionar_movimiento(evento.key)

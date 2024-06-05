@@ -91,14 +91,10 @@ class Menu
       self.cerrar_menu
       @partida_iniciada = true
     when 'k'
-      if @controles
-        @controles = false
-      else
-        @controles = true
-      end
+      @controles = !@controles
       sleep(0.01)
     when 'q'
-      if @controles == false
+      if !@controles
         @ventana.close
       end
     end

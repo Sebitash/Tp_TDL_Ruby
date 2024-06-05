@@ -12,10 +12,10 @@ class Criatura
     @y = 0
   end
 
-  # @pv[0] son los puntos de vida actuales de la criatura
   # Muestra la información del nombre, rango de vida y de daño de una criatura
   def to_s
-    "#{@nombre}: #{@pv[0]}/#{@pv[1]} PV |
+    "#{@nombre}:
+    #{@pv[0]}/#{@pv[1]} PV |
     Rango de daño: #{@rango_de_daño[0]}-#{@rango_de_daño[1]}"
   end
 

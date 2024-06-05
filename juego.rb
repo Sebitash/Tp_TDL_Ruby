@@ -116,7 +116,7 @@ class Juego
     end
   end
 
-  def check_criaturas_muertas
+  def chequear_criaturas_muertas
     @criaturas.reject! do |criatura|
       if criatura.pv <= 0
         @mapa_nivel_actual[criatura.y][criatura.x] = '0'
@@ -143,7 +143,7 @@ class Juego
     end
   end
 
-  def mover_camera
+  def mover_camara
     half_screen_tiles_x = (@ventana.width / TAMAÑO_TILE / 2).floor
     half_screen_tiles_y = (@ventana.height / TAMAÑO_TILE / 2).floor
 
@@ -196,7 +196,7 @@ class Juego
     end
   end
 
-  def check_ataque_criatura
+  def chequear_ataque_criatura
     @criaturas.each do |criatura|
       # Verificar si el jugador está vivo y si ha pasado suficiente tiempo desde el último ataque de la rata
       if @jugador.pv > 0 && (Time.now - @tiempo_ultimo_ataque >= 3) && (criatura.x - @x_jugador).abs <= 1 && (criatura.y - @y_jugador).abs <= 1
