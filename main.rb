@@ -6,8 +6,9 @@ require_relative 'equipamiento/armas'
 require_relative 'jugador'
 require_relative 'game.rb'
 require_relative 'menu.rb'
+require 'ruby2d'
 
-set title: "Prueba Tiny Dungeon"
+set title: "Tiny Dungeon"
 set width: 480
 set height: 320
 
