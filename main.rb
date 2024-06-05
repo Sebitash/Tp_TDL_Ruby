@@ -4,7 +4,7 @@ require_relative 'criatura/fenix'
 require_relative 'criatura/rata'
 require_relative 'equipamiento/armas'
 require_relative 'jugador'
-require_relative 'game.rb'
+require_relative 'juego.rb'
 require_relative 'menu.rb'
 require 'ruby2d'
 
@@ -15,12 +15,10 @@ set height: 320
 ventana = Window.new
 ventana.set(title: "Tiny Dungeon", width: 480, height: 320)
 
-player = Jugador.new("Player")
-
-game = Game.new(player, ventana)
+jugador = Jugador.new("Jugador")
+juego = Juego.new(jugador, ventana)
 
 menu = Menu.new(ventana)
-
 
 update do
   clear
@@ -32,11 +30,11 @@ update do
   end
 
   if menu.esta_abierto == false
-    game.check_player_alive
-    camera_x, camera_y = game.move_camera
-    game.draw_mapa(camera_x, camera_y)
-    game.check_criaturas_muertas
-    game.check_criatura_attacks
+    juego.check_player_alive
+    camera_x, camera_y = juego.move_camera
+    juego.draw_mapa(camera_x, camera_y)
+    juego.check_criaturas_muertas
+    juego.check_criatura_attacks
   end
 end
 
@@ -44,7 +42,7 @@ on :key_held do |event|
   if event.key == 'escape'
     menu.abrir_menu
   elsif menu.esta_abierto == false
-    game.handle_movement(event.key)
+    juego.handle_movement(event.key)
     sleep(0.05)
   else
     menu.gestionar_movimiento(event.key)

@@ -3,7 +3,7 @@ require_relative 'creador_criaturas'
 
 TILE_SIZE = 40
 
-class Game
+class Juego
   attr_accessor :player_x, :player_y, :ventana
 
   def initialize(player, ventana)
