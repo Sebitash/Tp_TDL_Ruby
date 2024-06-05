@@ -34,11 +34,11 @@ update do
   end
 
   if !menu.esta_abierto
-    juego.check_player_alive
-    camera_x, camera_y = juego.move_camera
-    juego.draw_mapa(camera_x, camera_y)
-    juego.check_criaturas_muertas
-    juego.check_criatura_attacks
+    juego.chequear_jugador_vivo
+    x_camara, y_camara = juego.mover_camara
+    juego.dibujar_mapa(x_camara, y_camara)
+    juego.chequear_criaturas_muertas
+    juego.chequear_ataque_criatura
   end
 end
 

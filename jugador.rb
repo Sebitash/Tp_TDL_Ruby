@@ -23,6 +23,8 @@ class Jugador
     )
   end
 
+  # Muestra la información del nombre, rango de puntos de vida y de mana, nivel, rango de
+  # experiencia, oro y arma equipada del jugador
   def to_s
     if @pv[0] <= 0
       "El jugador ha muerto. Fin de la partida."
@@ -60,9 +62,10 @@ class Jugador
       return
     end
 
-    ataque = @arma.atacar
+    daño = @arma.atacar
     puts "#{@nombre} lanza un ataque contra #{objetivo.nombre}."
-    pv_restante_objetivo = objetivo.recibir_ataque(ataque)
+
+    pv_restante_objetivo = objetivo.recibir_ataque(daño)
 
     if pv_restante_objetivo <= 0
       exp_ganada = objetivo.exp
@@ -74,9 +77,9 @@ class Jugador
     end
   end
 
-  def recibir_ataque(ataque_enemigo)
-    @pv[0] -= ataque_enemigo
-    puts "#{@nombre} recibe #{ataque_enemigo} puntos de daño."
+  def recibir_ataque(daño_ataque)
+    @pv[0] -= daño_ataque
+    puts "#{@nombre} recibe #{daño_ataque} puntos de daño."
 
     if @pv[0] <= 0
       @pv[0] = 0
