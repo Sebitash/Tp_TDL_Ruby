@@ -1,16 +1,25 @@
 require_relative 'jugador'
 require_relative 'juego.rb'
 require_relative 'menu.rb'
+require 'ruby2d'
 
 set title: "Tiny Dungeon"
 set width: 480
 set height: 320
 
+# Ventana del juego
 ventana = Window.new
-ventana.set(title: "Tiny Dungeon", width: 480, height: 320)
+ventana.set(
+  title: "Tiny Dungeon",
+  width: 480,
+  height: 320
+)
 
 jugador = Jugador.new("Jugador")
-juego = Juego.new(jugador, ventana)
+juego = Juego.new(
+  jugador,
+  ventana
+)
 
 menu = Menu.new(ventana)
 

@@ -2,10 +2,13 @@ require 'ruby2d'
 
 class Menu
   def initialize(ventana)
+    # Ventana del juego
     @ventana = ventana
+    # Menu del inicio del juego
     @menu_inicial = true
     @menu = false
     @partida_iniciada = false
+    # Pantalla de controles
     @controles = false
   end
 

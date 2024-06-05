@@ -13,14 +13,27 @@ class Jugador
     @exp = [0, 150]
   end
 
-  def draw(x, y, size)
-    Image.new('tiles/player_floor.png', x: x, y: y, width: size, height: size)
+  def dibujar(x, y, size)
+    Image.new(
+      'tiles/player_floor.png',
+      x: x,
+      y: y,
+      width: size,
+      height: size
+    )
   end
+
   def to_s
     if @pv[0] <= 0
       "El jugador ha muerto. Fin de la partida."
     else
-      "#{@nombre}: #{@pv[0]}/#{@pv[1]} PV | #{@pm[0]}/#{@pm[1]} PM | Nivel: #{@nivel} | #{@exp[0]}/#{@exp[1]} EXP | #{@oro} G\nArma equipada: #{@arma.to_s}"
+      "#{@nombre}:
+      #{@pv[0]}/#{@pv[1]} PV |
+      #{@pm[0]}/#{@pm[1]} PM |
+      Nivel: #{@nivel} |
+      #{@exp[0]}/#{@exp[1]} EXP |
+      #{@oro} G\n
+      Arma equipada: #{@arma.to_s}"
     end
   end
 
@@ -41,6 +54,7 @@ class Jugador
     if @pv[0] <= 0
       return
     end
+
     if objetivo.pv <= 0
       puts "El objetivo ya esta muerto."
       return
@@ -63,6 +77,7 @@ class Jugador
   def recibir_ataque(ataque_enemigo)
     @pv[0] -= ataque_enemigo
     puts "#{@nombre} recibe #{ataque_enemigo} puntos de daño."
+
     if @pv[0] <= 0
       @pv[0] = 0
       puts "¡El jugador ha muerto en batalla! Fin de la partida."

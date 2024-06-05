@@ -90,7 +90,7 @@ class Juego
       style: 'bold',size: 50, color: 'red')
       Image.new('tiles/floor.png', x: (@player_x - camera_x) * TILE_SIZE, y: (@player_y - camera_y) * TILE_SIZE, width: TILE_SIZE, height: TILE_SIZE)
     else
-      @player.draw((@player_x - camera_x) * TILE_SIZE, (@player_y - camera_y) * TILE_SIZE, TILE_SIZE) if @player.pv > 0
+      @player.dibujar((@player_x - camera_x) * TILE_SIZE, (@player_y - camera_y) * TILE_SIZE, TILE_SIZE) if @player.pv > 0
     end
   end
   def check_criaturas_muertas
