@@ -1,8 +1,3 @@
-require_relative 'criatura/dragon'
-require_relative 'criatura/grifo'
-require_relative 'criatura/fenix'
-require_relative 'criatura/rata'
-require_relative 'equipamiento/armas'
 require_relative 'jugador'
 require_relative 'juego.rb'
 require_relative 'menu.rb'
@@ -46,6 +41,7 @@ on :key_held do |evento|
   else
     menu.gestionar_movimiento(evento.key)
   end
+
   sleep(0.03)
 end
 
