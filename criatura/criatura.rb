@@ -4,7 +4,7 @@ class Criatura
 
   def initialize(nombre, pv, rango_de_ataque, rango_de_exp, rango_de_oro)
     @nombre = nombre
-    @pv = pv
+    @pv = pv # Puntos de vida
     @rango_de_ataque = rango_de_ataque
     @rango_de_exp = rango_de_exp
     @rango_de_oro = rango_de_oro
@@ -12,6 +12,7 @@ class Criatura
     @y = 0
   end
 
+  # @pv[0] son los puntos de vida actuales de la criatura
   def to_s
     "#{@nombre}: #{@pv[0]}/#{@pv[1]} PV |
     Ataque: #{@rango_de_ataque[0]}-#{@rango_de_ataque[1]}"
