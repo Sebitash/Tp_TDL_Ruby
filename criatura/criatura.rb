@@ -43,7 +43,7 @@ class Criatura
     raise NotImplementedError, "#{self.class} no ha implementado el método 'recibir_ataque'"
   end
 
-  def movimiento
+  def movimiento(mapa, criaturas, x_jugador, y_jugador)
     raise NotImplementedError, "#{self.class} no ha implementado el método 'movimiento'"
   end
 

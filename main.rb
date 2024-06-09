@@ -39,6 +39,7 @@ update do
     juego.dibujar_mapa(x_camara, y_camara)
     juego.chequear_criaturas_muertas
     juego.chequear_ataque_criatura
+    juego.movimiento_criaturas
   end
 end
 

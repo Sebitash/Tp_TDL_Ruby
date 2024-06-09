@@ -195,7 +195,12 @@ class Juego
       end
     end
   end
-
+  def movimiento_criaturas
+    @criaturas.each do |criatura|
+      criatura.movimiento(@mapa_nivel_actual, @criaturas, @x_jugador, @y_jugador)
+      sleep(0.5)
+    end
+  end
   def chequear_ataque_criatura
     @criaturas.each do |criatura|
       if @jugador.pv > 0 && (Time.now - @tiempo_ultimo_ataque >= 3) && (criatura.x - @x_jugador).abs <= 1 && (criatura.y - @y_jugador).abs <= 1
