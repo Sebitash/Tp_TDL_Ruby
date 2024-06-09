@@ -5,7 +5,7 @@ class Dragon < Criatura
 
   def initialize
     super(
-      'Dragón',
+      'Dragon',
       [300, 300],
       [34, 44],
       [89, 134],
@@ -14,18 +14,18 @@ class Dragon < Criatura
   end
 
   def atacar(objetivo)
-    if @pv[0] <= 0
-      return
-    end
+    # if @pv[0] <= 0
+    #   return
+    # end
 
-    if objetivo.pv <= 0
-      puts "El jugador ya esta muerto."
-      return
-    end
+    # if objetivo.pv <= 0
+    #   puts "El jugador ya esta muerto."
+    #   return
+    # end
 
-    daño = rand(@rango_de_daño[0]..@rango_de_daño[1])
-    puts "¡El Dragón ataca con fuerza! Además, escupe fuego."
-    objetivo.recibir_ataque(daño)
+    # daño = rand(@rango_de_daño[0]..@rango_de_daño[1])
+    # puts "¡El Dragón ataca con fuerza! Además, escupe fuego."
+    # objetivo.recibir_ataque(daño)
   end
 
   def recibir_ataque(puntos_de_daño)

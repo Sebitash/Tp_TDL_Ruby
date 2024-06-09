@@ -86,11 +86,11 @@ class Juego
         when 'Rata'
           'tiles/rata.png'
         when 'Dragon'
-          'tiles/dragon.png'
+          'tiles/ciclope_floor.png'
         when 'Fenix'
-          'tiles/fenix.png'
+          'tiles/murcielago.png'
         when 'Grifo'
-          'tiles/grifo.png'
+          'tiles/fantasma.png'
         end
       Image.new(
         imagen,
@@ -198,14 +198,12 @@ class Juego
 
   def chequear_ataque_criatura
     @criaturas.each do |criatura|
-      # Verificar si el jugador está vivo y si ha pasado suficiente tiempo desde el último ataque de la rata
       if @jugador.pv > 0 && (Time.now - @tiempo_ultimo_ataque >= 3) && (criatura.x - @x_jugador).abs <= 1 && (criatura.y - @y_jugador).abs <= 1
-        # Verificar si el jugador y la criatura están en la misma fila o columna
         if criatura.x == @x_jugador || criatura.y == @y_jugador
           criatura.atacar(@jugador)
           puts "La vida del jugador es #{@jugador.pv}"
 
-          @tiempo_ultimo_ataque = Time.now  # Actualizar el tiempo del último ataque
+          @tiempo_ultimo_ataque = Time.now  
         end
       end
     end
