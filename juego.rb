@@ -1,5 +1,6 @@
 require 'ruby2d'
 require_relative 'creador_criaturas'
+require_relative 'equipamiento/pociones'
 
 TAMAÑO_TILE = 40
 
@@ -64,6 +65,10 @@ class Juego
       row.each_with_index do |tile, x|
         if tile == '1'
           imagen_tile = 'tiles/wall.png'
+        elsif tile == 'p'
+          imagen_tile = 'tiles/pocion_vida1.png'
+        elsif tile == 'k'
+          imagen_tile = 'tiles/pocion_vida2.png'
         else
           imagen_tile = 'tiles/floor.png'
         end
@@ -163,19 +168,47 @@ class Juego
   def manejar_movimiento(tecla)
     case tecla
     when 'left'
-      if @mapa_nivel_actual[@y_jugador][@x_jugador - 1] == '0'
+      proximo_tile = @mapa_nivel_actual[@y_jugador][@x_jugador - 1]
+      if proximo_tile == 'p'
+        @jugador.recuperar_vida(PocionDeVidaChica.new)
+      end
+      if proximo_tile == 'k'
+        @jugador.recuperar_vida(PocionDeVidaGrande.new)
+      end
+      if proximo_tile == '0'
         @x_jugador -= 1
       end
     when 'right'
-      if @mapa_nivel_actual[@y_jugador][@x_jugador + 1] == '0'
+      proximo_tile = @mapa_nivel_actual[@y_jugador][@x_jugador + 1]
+      if proximo_tile == 'p'
+        @jugador.recuperar_vida(PocionDeVidaChica.new)
+      end
+      if proximo_tile == 'k'
+        @jugador.recuperar_vida(PocionDeVidaGrande.new)
+      end
+      if proximo_tile == '0'
         @x_jugador += 1
       end
     when 'up'
-      if @mapa_nivel_actual[@y_jugador - 1][@x_jugador] == '0'
+      proximo_tile = @mapa_nivel_actual[@y_jugador - 1][@x_jugador]
+      if proximo_tile == 'p'
+        @jugador.recuperar_vida(PocionDeVidaChica.new)
+      end
+      if proximo_tile == 'k'
+        @jugador.recuperar_vida(PocionDeVidaGrande.new)
+      end
+      if proximo_tile == '0'
         @y_jugador -= 1
       end
     when 'down'
-      if @mapa_nivel_actual[@y_jugador + 1][@x_jugador] == '0'
+      proximo_tile = @mapa_nivel_actual[@y_jugador + 1][@x_jugador]
+      if proximo_tile == 'p'
+        @jugador.recuperar_vida(PocionDeVidaChica.new)
+      end
+      if proximo_tile == 'k'
+        @jugador.recuperar_vida(PocionDeVidaGrande.new)
+      end
+      if proximo_tile == '0'
         @y_jugador += 1
       end
     when 'f'
