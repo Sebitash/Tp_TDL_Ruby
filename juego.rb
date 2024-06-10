@@ -169,46 +169,62 @@ class Juego
     case tecla
     when 'left'
       proximo_tile = @mapa_nivel_actual[@y_jugador][@x_jugador - 1]
-      if proximo_tile == 'p'
-        @jugador.recuperar_vida(PocionDeVidaChica.new)
-      end
-      if proximo_tile == 'k'
-        @jugador.recuperar_vida(PocionDeVidaGrande.new)
-      end
-      if proximo_tile == '0'
+      if proximo_tile == '0' || proximo_tile == 'p' || proximo_tile == 'k'
+        if proximo_tile == 'p'
+          if @jugador.recuperar_vida(PocionDeVidaChica.new)
+            @mapa_nivel_actual[@y_jugador][@x_jugador - 1] = '0'
+          end
+        end
+        if proximo_tile == 'k'
+          if @jugador.recuperar_vida(PocionDeVidaGrande.new)
+            @mapa_nivel_actual[@y_jugador][@x_jugador - 1] = '0'
+          end
+        end
         @x_jugador -= 1
       end
     when 'right'
       proximo_tile = @mapa_nivel_actual[@y_jugador][@x_jugador + 1]
-      if proximo_tile == 'p'
-        @jugador.recuperar_vida(PocionDeVidaChica.new)
-      end
-      if proximo_tile == 'k'
-        @jugador.recuperar_vida(PocionDeVidaGrande.new)
-      end
-      if proximo_tile == '0'
+      if proximo_tile == '0' || proximo_tile == 'p' || proximo_tile == 'k'
+        if proximo_tile == 'p'
+          if @jugador.recuperar_vida(PocionDeVidaChica.new)
+            @mapa_nivel_actual[@y_jugador][@x_jugador + 1] = '0'
+          end
+        end
+        if proximo_tile == 'k'
+          if @jugador.recuperar_vida(PocionDeVidaGrande.new)
+            @mapa_nivel_actual[@y_jugador][@x_jugador + 1] = '0'
+          end
+        end
         @x_jugador += 1
       end
     when 'up'
       proximo_tile = @mapa_nivel_actual[@y_jugador - 1][@x_jugador]
-      if proximo_tile == 'p'
-        @jugador.recuperar_vida(PocionDeVidaChica.new)
-      end
-      if proximo_tile == 'k'
-        @jugador.recuperar_vida(PocionDeVidaGrande.new)
-      end
-      if proximo_tile == '0'
+      if proximo_tile == '0' || proximo_tile == 'p' || proximo_tile == 'k'
+        if proximo_tile == 'p'
+          if @jugador.recuperar_vida(PocionDeVidaChica.new)
+            @mapa_nivel_actual[@y_jugador - 1][@x_jugador] = '0'
+          end
+        end
+        if proximo_tile == 'k'
+          if @jugador.recuperar_vida(PocionDeVidaGrande.new)
+            @mapa_nivel_actual[@y_jugador - 1][@x_jugador] = '0'
+          end
+        end
         @y_jugador -= 1
       end
     when 'down'
       proximo_tile = @mapa_nivel_actual[@y_jugador + 1][@x_jugador]
-      if proximo_tile == 'p'
-        @jugador.recuperar_vida(PocionDeVidaChica.new)
-      end
-      if proximo_tile == 'k'
-        @jugador.recuperar_vida(PocionDeVidaGrande.new)
-      end
-      if proximo_tile == '0'
+      if proximo_tile == '0' || proximo_tile == 'p' || proximo_tile == 'k'
+        if proximo_tile == 'p'
+          if @jugador.recuperar_vida(PocionDeVidaChica.new)
+            @mapa_nivel_actual[@y_jugador + 1][@x_jugador] = '0'
+          end
+        end
+        if proximo_tile == 'k'
+          if @jugador.recuperar_vida(PocionDeVidaGrande.new)
+            @mapa_nivel_actual[@y_jugador + 1][@x_jugador] = '0'
+          end
+        end
         @y_jugador += 1
       end
     when 'f'
