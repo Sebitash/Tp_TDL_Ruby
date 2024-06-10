@@ -92,7 +92,7 @@ class Menu
       @partida_iniciada = true
     when 'k'
       @controles = !@controles
-      sleep(0.01)
+      sleep(0.05)
     when 'q'
       if !@controles
         @ventana.close
