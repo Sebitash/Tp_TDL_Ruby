@@ -102,11 +102,11 @@ class Jugador
 
   def recuperar_vida(pocion_vida)
     if @pv[0] <= 0
-      return
+      return false
     end
     if @pv[0] == @pv[1]
       puts "¡No necesitas usar una poción de vida!"
-      return
+      return false
     end
 
     if @pv[0] + pocion_vida.recuperacion > @pv[1]
@@ -116,6 +116,7 @@ class Jugador
     end
 
     puts "Has usado #{pocion_vida.nombre} ¡Has recuperado #{pocion_vida.recuperacion} puntos de vida!"
+    return true
   end
 
   def movimiento
