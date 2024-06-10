@@ -43,6 +43,8 @@ class Juego
           criatura.x = x
           criatura.y = y
           @criaturas << criatura
+          # Actualizar el mapa para marcar la posición como libre
+          @mapa_nivel_actual[y][x] = '0'
         end
       end
     end
@@ -161,29 +163,33 @@ class Juego
   end
 
   def manejar_movimiento(tecla)
+    nueva_x = @x_jugador
+    nueva_y = @y_jugador
+
     case tecla
     when 'left'
-      if @mapa_nivel_actual[@y_jugador][@x_jugador - 1] == '0'
-        @x_jugador -= 1
-      end
+      nueva_x -= 1 if @mapa_nivel_actual[@y_jugador][@x_jugador - 1] == '0'
     when 'right'
-      if @mapa_nivel_actual[@y_jugador][@x_jugador + 1] == '0'
-        @x_jugador += 1
-      end
+      nueva_x += 1 if @mapa_nivel_actual[@y_jugador][@x_jugador + 1] == '0'
     when 'up'
-      if @mapa_nivel_actual[@y_jugador - 1][@x_jugador] == '0'
-        @y_jugador -= 1
-      end
+      nueva_y -= 1 if @mapa_nivel_actual[@y_jugador - 1][@x_jugador] == '0'
     when 'down'
-      if @mapa_nivel_actual[@y_jugador + 1][@x_jugador] == '0'
-        @y_jugador += 1
-      end
+      nueva_y += 1 if @mapa_nivel_actual[@y_jugador + 1][@x_jugador] == '0'
     when 'f'
       manejo_ataque
       sleep(0.5)
     end
 
+    if posicion_valida?(nueva_x, nueva_y)
+      @x_jugador = nueva_x
+      @y_jugador = nueva_y
+    end
+
     sleep(0.02)
+  end
+
+  def posicion_valida?(x, y)
+    @mapa_nivel_actual[y][x] == '0' && @criaturas.none? { |criatura| criatura.x == x && criatura.y == y }
   end
 
   def manejo_ataque
@@ -198,7 +204,7 @@ class Juego
   def movimiento_criaturas
     @criaturas.each do |criatura|
       criatura.movimiento(@mapa_nivel_actual, @criaturas, @x_jugador, @y_jugador)
-      sleep(0.5)
+      sleep(0.05)
     end
   end
   def chequear_ataque_criatura
