@@ -204,7 +204,6 @@ class Juego
   def movimiento_criaturas
     @criaturas.each do |criatura|
       criatura.movimiento(@mapa_nivel_actual, @criaturas, @x_jugador, @y_jugador)
-      sleep(1)
     end
   end
   def chequear_ataque_criatura
