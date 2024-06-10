@@ -6,7 +6,7 @@ class Grifo < Criatura
   def initialize
     super(
       'Grifo',
-      [120, 120],
+      [12, 12],
       [15, 21],
       [43, 67],
       [30, 61]
@@ -40,8 +40,17 @@ class Grifo < Criatura
     return @pv[0]
   end
 
-  def movimiento
-    "El Grifo surca los cielos con elegancia."
+  def movimiento(mapa, criaturas, x_jugador, y_jugador)
+    loop do
+      nuevo_x = rand(mapa[0].size)
+      nuevo_y = rand(mapa.size)
+  
+      if puede_moverse_a?(nuevo_x, nuevo_y, mapa, criaturas, x_jugador, y_jugador)
+        @x = nuevo_x
+        @y = nuevo_y
+        break
+      end
+    end
   end
 
 end
