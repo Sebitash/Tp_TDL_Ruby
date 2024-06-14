@@ -1,4 +1,5 @@
 require_relative 'equipamiento/armas'
+require_relative 'equipamiento/pociones'
 
 class Jugador
   attr_reader :nombre
@@ -10,12 +11,12 @@ class Jugador
     @oro = 0
     @nivel = 1
     @arma = arma
-    @exp = [0, 150]
+    @exp = [0, 50]
   end
 
   def dibujar(x, y, size)
     Image.new(
-      'tiles/player_floor.png',
+      'tiles/jugador.png',
       x: x,
       y: y,
       width: size,
@@ -47,9 +48,26 @@ class Jugador
     puts "Hola, soy #{@nombre} y tengo que despejar esta mazmorra."
   end
 
-  def equipar_arma(arma)
-    @arma = arma
-    puts "¡Nueva arma equipada!"
+  def equipar_arma(arma_nueva)
+    arma_anterior = @arma
+    @arma = arma_nueva
+    puts "Nueva arma equipada: #{arma_nueva.nombre}"
+    arma_anterior
+  end
+
+  def arma_equipada
+    @arma.nombre
+  end
+
+  def check_subir_nivel
+    if @exp[0] >= @exp[1]
+      @nivel += 1
+      @exp[0] = 0
+      @exp[1] = @exp[1] * 2
+      @pv[1] += 5
+      @pm[1] += 5
+      puts "¡Has subido a nivel #{@nivel}!"
+    end
   end
 
   def atacar(objetivo)
@@ -74,6 +92,7 @@ class Jugador
       @oro += oro_ganado
       puts "¡#{@nombre} ha asesinado a #{objetivo.nombre}!"
       puts "¡#{@nombre} ha ganado #{exp_ganada} EXP y #{oro_ganado} G!"
+      check_subir_nivel
     end
   end
 
@@ -85,6 +104,25 @@ class Jugador
       @pv[0] = 0
       puts "¡El jugador ha muerto en batalla! Fin de la partida."
     end
+  end
+
+  def recuperar_vida(pocion_vida)
+    if @pv[0] <= 0
+      return false
+    end
+    if @pv[0] == @pv[1]
+      puts "¡No necesitas usar una poción de vida!"
+      return false
+    end
+
+    if @pv[0] + pocion_vida.recuperacion > @pv[1]
+      @pv[0] = @pv[1]
+    else
+      @pv[0] += pocion_vida.recuperacion
+    end
+
+    puts "Has usado #{pocion_vida.nombre} ¡Has recuperado #{pocion_vida.recuperacion} puntos de vida!"
+    return true
   end
 
   def movimiento

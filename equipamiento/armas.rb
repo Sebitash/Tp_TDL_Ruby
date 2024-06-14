@@ -6,7 +6,8 @@ class Punios < Arma
       "Puños",
       [1, 2],
       Float::INFINITY,
-      0
+      0,
+      'j'
     )
   end
 end
@@ -17,7 +18,8 @@ class EspadaDeBronce < Arma
       "Espada de bronce",
       [2, 4],
       150,
-      15
+      15,
+      'l'
     )
   end
 end
@@ -28,7 +30,8 @@ class DagaDeAcero < Arma
       "Daga de Acero",
       [2, 3],
       250,
-      12
+      12,
+      'm'
     )
   end
 end
@@ -39,7 +42,8 @@ class EspadaDeAcero < Arma
       "Espada de Acero",
       [5, 10],
       300,
-      14
+      14,
+      'n'
     )
   end
 end
@@ -50,7 +54,8 @@ class MandobleDeAcero < Arma
       "Mandoble de Acero",
       [8, 14],
       400,
-      15
+      15,
+      'b'
     )
   end
 end
@@ -61,7 +66,8 @@ class MartilloDeGuerra < Arma
       "Martillo de Guerra",
       [20, 31],
       500,
-      30
+      30,
+      'v'
     )
   end
 end
@@ -72,7 +78,8 @@ class HachaDeAcero < Arma
       "Hacha de Acero",
       [6, 9],
       320,
-      12
+      12,
+      'c'
     )
   end
 end
@@ -83,7 +90,8 @@ class HachaDeGuerra < Arma
       "Hacha de Guerra",
       [19, 27],
       450,
-      32
+      32,
+      'x'
     )
   end
 end
@@ -94,7 +102,8 @@ class LanzaDeAcero < Arma
       "Lanza de Acero",
       [15, 16],
       250,
-      10
+      10,
+      'z'
     )
   end
 end
