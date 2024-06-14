@@ -3,6 +3,19 @@ require_relative 'creador_criaturas'
 require_relative 'equipamiento/pociones'
 
 TAMAÑO_TILE = 40
+CARAC_FLOOR = '0'
+CARAC_WALL = '1'
+CARAC_RATA = '2'
+CARAC_POC_VIDA_C = 'o'
+CARAC_POC_VIDA_G = 'p'
+CARAC_ARMA_ESP_BRO = 'l'
+CARAC_ARMA_DAG_ACE = 'm'
+CARAC_ARMA_ESP_ACE = 'n'
+CARAC_ARMA_MAN_ACE = 'b'
+CARAC_ARMA_MAR_GUE = 'v'
+CARAC_ARMA_HAC_ACE = 'c'
+CARAC_ARMA_HAC_GUE = 'x'
+CARAC_ARMA_LAN_ACE = 'z'
 
 class Juego
   attr_accessor :x_jugador, :y_jugador, :ventana
@@ -28,7 +41,7 @@ class Juego
 
   def crear_criaturas
     criatura_tipos = {
-      '2' => 'Rata',
+      CARAC_RATA => 'Rata',
       '3' => 'Dragon',
       '4' => 'Fenix',
       '5' => 'Grifo'
@@ -63,11 +76,11 @@ class Juego
   def dibujar_mapa(x_camara, y_camara)
     @mapa_nivel_actual.each_with_index do |row, y|
       row.each_with_index do |tile, x|
-        if tile == '1'
+        if tile == CARAC_WALL
           imagen_tile = 'tiles/wall.png'
-        elsif tile == 'p'
+        elsif tile == CARAC_POC_VIDA_C
           imagen_tile = 'tiles/pocion_vida1.png'
-        elsif tile == 'k'
+        elsif tile == CARAC_POC_VIDA_G
           imagen_tile = 'tiles/pocion_vida2.png'
         else
           imagen_tile = 'tiles/floor.png'
@@ -124,7 +137,7 @@ class Juego
   def chequear_criaturas_muertas
     @criaturas.reject! do |criatura|
       if criatura.pv <= 0
-        @mapa_nivel_actual[criatura.y][criatura.x] = '0'
+        @mapa_nivel_actual[criatura.y][criatura.x] = CARAC_FLOOR
         true
       else
         false
@@ -169,60 +182,60 @@ class Juego
     case tecla
     when 'left'
       proximo_tile = @mapa_nivel_actual[@y_jugador][@x_jugador - 1]
-      if proximo_tile == '0' || proximo_tile == 'p' || proximo_tile == 'k'
-        if proximo_tile == 'p'
+      if proximo_tile == CARAC_FLOOR || proximo_tile == CARAC_POC_VIDA_C || proximo_tile == CARAC_POC_VIDA_G
+        if proximo_tile == CARAC_POC_VIDA_C
           if @jugador.recuperar_vida(PocionDeVidaChica.new)
-            @mapa_nivel_actual[@y_jugador][@x_jugador - 1] = '0'
+            @mapa_nivel_actual[@y_jugador][@x_jugador - 1] = CARAC_FLOOR
           end
         end
-        if proximo_tile == 'k'
+        if proximo_tile == CARAC_POC_VIDA_G
           if @jugador.recuperar_vida(PocionDeVidaGrande.new)
-            @mapa_nivel_actual[@y_jugador][@x_jugador - 1] = '0'
+            @mapa_nivel_actual[@y_jugador][@x_jugador - 1] = CARAC_FLOOR
           end
         end
         @x_jugador -= 1
       end
     when 'right'
       proximo_tile = @mapa_nivel_actual[@y_jugador][@x_jugador + 1]
-      if proximo_tile == '0' || proximo_tile == 'p' || proximo_tile == 'k'
-        if proximo_tile == 'p'
+      if proximo_tile == CARAC_FLOOR || proximo_tile == CARAC_POC_VIDA_G || proximo_tile == 'k'
+        if proximo_tile == CARAC_POC_VIDA_C
           if @jugador.recuperar_vida(PocionDeVidaChica.new)
-            @mapa_nivel_actual[@y_jugador][@x_jugador + 1] = '0'
+            @mapa_nivel_actual[@y_jugador][@x_jugador + 1] = CARAC_FLOOR
           end
         end
-        if proximo_tile == 'k'
+        if proximo_tile == CARAC_POC_VIDA_G
           if @jugador.recuperar_vida(PocionDeVidaGrande.new)
-            @mapa_nivel_actual[@y_jugador][@x_jugador + 1] = '0'
+            @mapa_nivel_actual[@y_jugador][@x_jugador + 1] = CARAC_FLOOR
           end
         end
         @x_jugador += 1
       end
     when 'up'
       proximo_tile = @mapa_nivel_actual[@y_jugador - 1][@x_jugador]
-      if proximo_tile == '0' || proximo_tile == 'p' || proximo_tile == 'k'
-        if proximo_tile == 'p'
+      if proximo_tile == CARAC_FLOOR || proximo_tile == CARAC_POC_VIDA_C || proximo_tile == CARAC_POC_VIDA_G
+        if proximo_tile == CARAC_POC_VIDA_C
           if @jugador.recuperar_vida(PocionDeVidaChica.new)
-            @mapa_nivel_actual[@y_jugador - 1][@x_jugador] = '0'
+            @mapa_nivel_actual[@y_jugador - 1][@x_jugador] = CARAC_FLOOR
           end
         end
-        if proximo_tile == 'k'
+        if proximo_tile == CARAC_POC_VIDA_G
           if @jugador.recuperar_vida(PocionDeVidaGrande.new)
-            @mapa_nivel_actual[@y_jugador - 1][@x_jugador] = '0'
+            @mapa_nivel_actual[@y_jugador - 1][@x_jugador] = CARAC_FLOOR
           end
         end
         @y_jugador -= 1
       end
     when 'down'
       proximo_tile = @mapa_nivel_actual[@y_jugador + 1][@x_jugador]
-      if proximo_tile == '0' || proximo_tile == 'p' || proximo_tile == 'k'
-        if proximo_tile == 'p'
+      if proximo_tile == CARAC_FLOOR || proximo_tile == CARAC_POC_VIDA_C || proximo_tile == CARAC_POC_VIDA_G
+        if proximo_tile == CARAC_POC_VIDA_C
           if @jugador.recuperar_vida(PocionDeVidaChica.new)
-            @mapa_nivel_actual[@y_jugador + 1][@x_jugador] = '0'
+            @mapa_nivel_actual[@y_jugador + 1][@x_jugador] = CARAC_FLOOR
           end
         end
-        if proximo_tile == 'k'
+        if proximo_tile == CARAC_POC_VIDA_G
           if @jugador.recuperar_vida(PocionDeVidaGrande.new)
-            @mapa_nivel_actual[@y_jugador + 1][@x_jugador] = '0'
+            @mapa_nivel_actual[@y_jugador + 1][@x_jugador] = CARAC_FLOOR
           end
         end
         @y_jugador += 1
