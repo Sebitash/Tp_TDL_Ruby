@@ -53,6 +53,10 @@ class Jugador
     puts "¡Nueva arma equipada!"
   end
 
+  def arma_equipada
+    @arma.nombre
+  end
+
   def check_subir_nivel
     if @exp[0] >= @exp[1]
       @nivel += 1
