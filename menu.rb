@@ -30,7 +30,7 @@ class Menu
     (@ventana.width / TAMAÑO_TILE).times do |x|
       (@ventana.height / TAMAÑO_TILE).times do |y|
         Image.new(
-          'tiles/wall.png',
+          'tiles/pared.png',
           x: x * TAMAÑO_TILE,
           y: y * TAMAÑO_TILE,
           width: TAMAÑO_TILE,
