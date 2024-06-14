@@ -7,7 +7,6 @@ set title: "Tiny Dungeon"
 set width: 480
 set height: 320
 
-# Ventana del juego
 ventana = Window.new
 ventana.set(
   title: "Tiny Dungeon",
@@ -23,8 +22,8 @@ juego = Juego.new(
 )
 
 menu = Menu.new(ventana)
-update_interval = 0.5 # Intervalo de actualización en segundos
-@last_creature_update = Time.now # Inicialización del temporizador
+update_interval = 0.5 
+@last_creature_update = Time.now 
 
 update do
   clear
@@ -54,7 +53,6 @@ on :key_held do |evento|
     menu.abrir_menu
   elsif !menu.esta_abierto
     juego.manejar_movimiento(evento.key)
-    sleep(0.05)
   else
     menu.gestionar_movimiento(evento.key)
   end
