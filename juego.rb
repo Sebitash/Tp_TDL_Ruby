@@ -72,8 +72,6 @@ class Juego
           criatura.x = x
           criatura.y = y
           @criaturas << criatura
-          # Actualizar el mapa para marcar la posición como libre
-          @mapa_nivel_actual[y][x] = '0'
         end
       end
     end
@@ -138,11 +136,11 @@ class Juego
         when 'Rata'
           'tiles/rata.png'
         when 'Dragon'
-          'tiles/ciclope_floor.png'
+          'tiles/dragon.png'
         when 'Fenix'
-          'tiles/murcielago.png'
+          'tiles/fenix.png'
         when 'Grifo'
-          'tiles/fantasma.png'
+          'tiles/grifo.png'
         end
       Image.new(
         imagen,
@@ -213,33 +211,94 @@ class Juego
   end
 
   def manejar_movimiento(tecla)
-    nueva_x = @x_jugador
-    nueva_y = @y_jugador
-
     case tecla
     when 'left'
-      nueva_x -= 1 if @mapa_nivel_actual[@y_jugador][@x_jugador - 1] == '0'
+      manejar_proximo_tile(-1, 0)
     when 'right'
-      nueva_x += 1 if @mapa_nivel_actual[@y_jugador][@x_jugador + 1] == '0'
+      manejar_proximo_tile(1, 0)
     when 'up'
-      nueva_y -= 1 if @mapa_nivel_actual[@y_jugador - 1][@x_jugador] == '0'
+      manejar_proximo_tile(0, -1)
     when 'down'
-      nueva_y += 1 if @mapa_nivel_actual[@y_jugador + 1][@x_jugador] == '0'
+      manejar_proximo_tile(0, 1)
     when 'f'
       manejo_ataque
       sleep(0.5)
     end
-
-    if posicion_valida?(nueva_x, nueva_y)
-      @x_jugador = nueva_x
-      @y_jugador = nueva_y
-    end
-
     sleep(0.02)
   end
 
-  def posicion_valida?(x, y)
-    @mapa_nivel_actual[y][x] == '0' && @criaturas.none? { |criatura| criatura.x == x && criatura.y == y }
+  def manejar_proximo_tile(movimiento_x, movimiento_y)
+    proximo_tile = @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x]
+    if OBJETOS_ATRAVESABLES.include?(proximo_tile)
+      case proximo_tile
+      when CARAC_POC_VIDA_C
+        if @jugador.recuperar_vida(PocionDeVidaChica.new)
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = CARAC_PISO
+        end
+      when CARAC_POC_VIDA_G
+        if @jugador.recuperar_vida(PocionDeVidaGrande.new)
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = CARAC_PISO
+        end
+      when CARAC_ARMA_DAG_ACE
+        arma_anterior = @jugador.equipar_arma(DagaDeAcero.new)
+        if arma_anterior.caracter != CARAC_PUNIOS
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = arma_anterior.caracter
+        else
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = CARAC_PISO
+        end
+      when CARAC_ARMA_ESP_BRO
+        arma_anterior = @jugador.equipar_arma(EspadaDeBronce.new)
+        if arma_anterior.caracter != CARAC_PUNIOS
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = arma_anterior.caracter
+        else
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = CARAC_PISO
+        end
+      when CARAC_ARMA_ESP_ACE
+        arma_anterior = @jugador.equipar_arma(EspadaDeAcero.new)
+        if arma_anterior.caracter != CARAC_PUNIOS
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = arma_anterior.caracter
+        else
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = CARAC_PISO
+        end
+      when CARAC_ARMA_MAN_ACE
+        arma_anterior = @jugador.equipar_arma(MandobleDeAcero.new)
+        if arma_anterior.caracter != CARAC_PUNIOS
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = arma_anterior.caracter
+        else
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = CARAC_PISO
+        end
+      when CARAC_ARMA_MAR_GUE
+        arma_anterior = @jugador.equipar_arma(MartilloDeGuerra.new)
+        if arma_anterior.caracter != CARAC_PUNIOS
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = arma_anterior.caracter
+        else
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = CARAC_PISO
+        end
+      when CARAC_ARMA_HAC_ACE
+        arma_anterior = @jugador.equipar_arma(HachaDeAcero.new)
+        if arma_anterior.caracter != CARAC_PUNIOS
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = arma_anterior.caracter
+        else
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = CARAC_PISO
+        end
+      when CARAC_ARMA_HAC_GUE
+        arma_anterior = @jugador.equipar_arma(HachaDeGuerra.new)
+        if arma_anterior.caracter != CARAC_PUNIOS
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = arma_anterior.caracter
+        else
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = CARAC_PISO
+        end
+      when CARAC_ARMA_LAN_ACE
+        arma_anterior = @jugador.equipar_arma(LanzaDeAcero.new)
+        if arma_anterior.caracter != CARAC_PUNIOS
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = arma_anterior.caracter
+        else
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = CARAC_PISO
+        end
+      end
+      @x_jugador += movimiento_x
+      @y_jugador += movimiento_y
+    end
   end
 
   def manejo_ataque
@@ -251,19 +310,17 @@ class Juego
       end
     end
   end
-  def movimiento_criaturas
-    @criaturas.each do |criatura|
-      criatura.movimiento(@mapa_nivel_actual, @criaturas, @x_jugador, @y_jugador)
-    end
-  end
+
   def chequear_ataque_criatura
     @criaturas.each do |criatura|
+      # Verificar si el jugador está vivo y si ha pasado suficiente tiempo desde el último ataque de la rata
       if @jugador.pv > 0 && (Time.now - @tiempo_ultimo_ataque >= 3) && (criatura.x - @x_jugador).abs <= 1 && (criatura.y - @y_jugador).abs <= 1
+        # Verificar si el jugador y la criatura están en la misma fila o columna
         if criatura.x == @x_jugador || criatura.y == @y_jugador
           criatura.atacar(@jugador)
           puts "La vida del jugador es #{@jugador.pv}"
 
-          @tiempo_ultimo_ataque = Time.now  
+          @tiempo_ultimo_ataque = Time.now  # Actualizar el tiempo del último ataque
         end
       end
     end
