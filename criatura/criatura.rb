@@ -1,3 +1,4 @@
+require_relative '../juego.rb'
 class Criatura
   attr_reader :nombre
   attr_accessor :x, :y
@@ -45,6 +46,17 @@ class Criatura
 
   def movimiento
     raise NotImplementedError, "#{self.class} no ha implementado el método 'movimiento'"
+  end
+
+  private
+
+  def puede_moverse_a?(x, y, mapa, criaturas, x_jugador, y_jugador)
+    return false if x < 0 || y < 0 || x >= mapa[0].size || y >= mapa.size
+    return false unless OBJETOS_ATRAVESABLES.include?(mapa[y][x])
+    return false if mapa[y][x] == '1' # Asumiendo que '1' representa una pared
+    return false if criaturas.any? { |criatura| criatura.x == x && criatura.y == y }
+    return false if x_jugador == x && y_jugador == y
+    true
   end
 
 end
