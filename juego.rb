@@ -136,11 +136,11 @@ class Juego
         when 'Rata'
           'tiles/rata.png'
         when 'Dragon'
-          'tiles/dragon.png'
+          'tiles/ciclope_floor.png'
         when 'Fenix'
-          'tiles/fenix.png'
+          'tiles/murcielago.png'
         when 'Grifo'
-          'tiles/grifo.png'
+          'tiles/fantasma.png'
         end
       Image.new(
         imagen,
@@ -226,9 +226,19 @@ class Juego
     end
     sleep(0.02)
   end
-
+  def movimiento_criaturas
+    @criaturas.each do |criatura|
+      criatura.movimiento(@mapa_nivel_actual, @criaturas, @x_jugador, @y_jugador)
+    end
+  end
+  
   def manejar_proximo_tile(movimiento_x, movimiento_y)
+    proximo_x = @x_jugador + movimiento_x
+    proximo_y = @y_jugador + movimiento_y
+    proximo_tile = @mapa_nivel_actual[proximo_y][proximo_x]
     proximo_tile = @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x]
+    return if @criaturas.any? { |criatura| criatura.x == proximo_x && criatura.y == proximo_y }
+
     if OBJETOS_ATRAVESABLES.include?(proximo_tile)
       case proximo_tile
       when CARAC_POC_VIDA_C
