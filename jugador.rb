@@ -48,9 +48,11 @@ class Jugador
     puts "Hola, soy #{@nombre} y tengo que despejar esta mazmorra."
   end
 
-  def equipar_arma(arma)
-    @arma = arma
-    puts "¡Nueva arma equipada!"
+  def equipar_arma(arma_nueva)
+    arma_anterior = @arma
+    @arma = arma_nueva
+    puts "Nueva arma equipada: #{arma_nueva.nombre}"
+    arma_anterior
   end
 
   def arma_equipada
