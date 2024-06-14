@@ -16,7 +16,7 @@ class Jugador
 
   def dibujar(x, y, size)
     Image.new(
-      'tiles/player.png',
+      'tiles/jugador.png',
       x: x,
       y: y,
       width: size,
