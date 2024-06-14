@@ -23,8 +23,6 @@ juego = Juego.new(
 )
 
 menu = Menu.new(ventana)
-update_interval = 0.5 # Intervalo de actualización en segundos
-@last_creature_update = Time.now # Inicialización del temporizador
 
 update do
   clear
@@ -41,11 +39,6 @@ update do
     juego.dibujar_mapa(x_camara, y_camara)
     juego.chequear_criaturas_muertas
     juego.chequear_ataque_criatura
-    
-    if Time.now - @last_creature_update >= update_interval
-      juego.movimiento_criaturas
-      @last_creature_update = Time.now
-    end
   end
 end
 
