@@ -181,71 +181,87 @@ class Juego
   def manejar_movimiento(tecla)
     case tecla
     when 'left'
-      proximo_tile = @mapa_nivel_actual[@y_jugador][@x_jugador - 1]
-      if proximo_tile == CARAC_FLOOR || proximo_tile == CARAC_POC_VIDA_C || proximo_tile == CARAC_POC_VIDA_G
-        if proximo_tile == CARAC_POC_VIDA_C
-          if @jugador.recuperar_vida(PocionDeVidaChica.new)
-            @mapa_nivel_actual[@y_jugador][@x_jugador - 1] = CARAC_FLOOR
-          end
-        end
-        if proximo_tile == CARAC_POC_VIDA_G
-          if @jugador.recuperar_vida(PocionDeVidaGrande.new)
-            @mapa_nivel_actual[@y_jugador][@x_jugador - 1] = CARAC_FLOOR
-          end
-        end
-        @x_jugador -= 1
-      end
+      manejo_movimiento_izquierda
     when 'right'
-      proximo_tile = @mapa_nivel_actual[@y_jugador][@x_jugador + 1]
-      if proximo_tile == CARAC_FLOOR || proximo_tile == CARAC_POC_VIDA_G || proximo_tile == 'k'
-        if proximo_tile == CARAC_POC_VIDA_C
-          if @jugador.recuperar_vida(PocionDeVidaChica.new)
-            @mapa_nivel_actual[@y_jugador][@x_jugador + 1] = CARAC_FLOOR
-          end
-        end
-        if proximo_tile == CARAC_POC_VIDA_G
-          if @jugador.recuperar_vida(PocionDeVidaGrande.new)
-            @mapa_nivel_actual[@y_jugador][@x_jugador + 1] = CARAC_FLOOR
-          end
-        end
-        @x_jugador += 1
-      end
+      manejo_movimiento_derecha
     when 'up'
-      proximo_tile = @mapa_nivel_actual[@y_jugador - 1][@x_jugador]
-      if proximo_tile == CARAC_FLOOR || proximo_tile == CARAC_POC_VIDA_C || proximo_tile == CARAC_POC_VIDA_G
-        if proximo_tile == CARAC_POC_VIDA_C
-          if @jugador.recuperar_vida(PocionDeVidaChica.new)
-            @mapa_nivel_actual[@y_jugador - 1][@x_jugador] = CARAC_FLOOR
-          end
-        end
-        if proximo_tile == CARAC_POC_VIDA_G
-          if @jugador.recuperar_vida(PocionDeVidaGrande.new)
-            @mapa_nivel_actual[@y_jugador - 1][@x_jugador] = CARAC_FLOOR
-          end
-        end
-        @y_jugador -= 1
-      end
+      manejo_movimiento_arriba
     when 'down'
-      proximo_tile = @mapa_nivel_actual[@y_jugador + 1][@x_jugador]
-      if proximo_tile == CARAC_FLOOR || proximo_tile == CARAC_POC_VIDA_C || proximo_tile == CARAC_POC_VIDA_G
-        if proximo_tile == CARAC_POC_VIDA_C
-          if @jugador.recuperar_vida(PocionDeVidaChica.new)
-            @mapa_nivel_actual[@y_jugador + 1][@x_jugador] = CARAC_FLOOR
-          end
-        end
-        if proximo_tile == CARAC_POC_VIDA_G
-          if @jugador.recuperar_vida(PocionDeVidaGrande.new)
-            @mapa_nivel_actual[@y_jugador + 1][@x_jugador] = CARAC_FLOOR
-          end
-        end
-        @y_jugador += 1
-      end
+      manejo_movimiento_abajo
     when 'f'
       manejo_ataque
       sleep(0.5)
     end
 
     sleep(0.02)
+  end
+
+  def manejo_movimiento_izquierda
+    proximo_tile = @mapa_nivel_actual[@y_jugador][@x_jugador - 1]
+    if proximo_tile == CARAC_FLOOR || proximo_tile == CARAC_POC_VIDA_C || proximo_tile == CARAC_POC_VIDA_G
+      if proximo_tile == CARAC_POC_VIDA_C
+        if @jugador.recuperar_vida(PocionDeVidaChica.new)
+          @mapa_nivel_actual[@y_jugador][@x_jugador - 1] = CARAC_FLOOR
+        end
+      end
+      if proximo_tile == CARAC_POC_VIDA_G
+        if @jugador.recuperar_vida(PocionDeVidaGrande.new)
+          @mapa_nivel_actual[@y_jugador][@x_jugador - 1] = CARAC_FLOOR
+        end
+      end
+      @x_jugador -= 1
+    end
+  end
+
+  def manejo_movimiento_derecha
+    proximo_tile = @mapa_nivel_actual[@y_jugador][@x_jugador + 1]
+    if proximo_tile == CARAC_FLOOR || proximo_tile == CARAC_POC_VIDA_G || proximo_tile == 'k'
+      if proximo_tile == CARAC_POC_VIDA_C
+        if @jugador.recuperar_vida(PocionDeVidaChica.new)
+          @mapa_nivel_actual[@y_jugador][@x_jugador + 1] = CARAC_FLOOR
+        end
+      end
+      if proximo_tile == CARAC_POC_VIDA_G
+        if @jugador.recuperar_vida(PocionDeVidaGrande.new)
+          @mapa_nivel_actual[@y_jugador][@x_jugador + 1] = CARAC_FLOOR
+        end
+      end
+      @x_jugador += 1
+    end
+  end
+
+  def manejo_movimiento_arriba
+    proximo_tile = @mapa_nivel_actual[@y_jugador - 1][@x_jugador]
+    if proximo_tile == CARAC_FLOOR || proximo_tile == CARAC_POC_VIDA_C || proximo_tile == CARAC_POC_VIDA_G
+      if proximo_tile == CARAC_POC_VIDA_C
+        if @jugador.recuperar_vida(PocionDeVidaChica.new)
+          @mapa_nivel_actual[@y_jugador - 1][@x_jugador] = CARAC_FLOOR
+        end
+      end
+      if proximo_tile == CARAC_POC_VIDA_G
+        if @jugador.recuperar_vida(PocionDeVidaGrande.new)
+          @mapa_nivel_actual[@y_jugador - 1][@x_jugador] = CARAC_FLOOR
+        end
+      end
+      @y_jugador -= 1
+    end
+  end
+
+  def manejo_movimiento_abajo
+    proximo_tile = @mapa_nivel_actual[@y_jugador + 1][@x_jugador]
+    if proximo_tile == CARAC_FLOOR || proximo_tile == CARAC_POC_VIDA_C || proximo_tile == CARAC_POC_VIDA_G
+      if proximo_tile == CARAC_POC_VIDA_C
+        if @jugador.recuperar_vida(PocionDeVidaChica.new)
+          @mapa_nivel_actual[@y_jugador + 1][@x_jugador] = CARAC_FLOOR
+        end
+      end
+      if proximo_tile == CARAC_POC_VIDA_G
+        if @jugador.recuperar_vida(PocionDeVidaGrande.new)
+          @mapa_nivel_actual[@y_jugador + 1][@x_jugador] = CARAC_FLOOR
+        end
+      end
+      @y_jugador += 1
+    end
   end
 
   def manejo_ataque
