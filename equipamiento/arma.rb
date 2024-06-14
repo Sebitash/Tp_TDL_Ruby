@@ -1,11 +1,12 @@
 class Arma
-  attr_reader :nombre
+  attr_reader :nombre, :caracter
 
-  def initialize(nombre, rango_de_daño, durabilidad, desgaste)
+  def initialize(nombre, rango_de_daño, durabilidad, desgaste, caracter)
     @nombre = nombre
     @rango_de_daño = rango_de_daño
     @durabilidad = durabilidad
     @desgaste = desgaste
+    @caracter = caracter
   end
 
   # Muestra la información del nombre y rango de daño si el arma son los puños
