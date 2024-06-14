@@ -6,7 +6,7 @@ class Fenix < Criatura
   def initialize
     super(
       'Fenix',
-      [55, 55],
+      [70, 70],
       [10, 16],
       [21, 42],
       [54, 87]
@@ -14,18 +14,18 @@ class Fenix < Criatura
   end
 
   def atacar(objetivo)
-    if @pv[0] <= 0
-      return
-    end
+    # if @pv[0] <= 0
+    #   return
+    # end
 
-    if objetivo.pv <= 0
-      puts "El jugador ya esta muerto."
-      return
-    end
+    # if objetivo.pv <= 0
+    #   puts "El jugador ya esta muerto."
+    #   return
+    # end
 
-    daño = rand(@rango_de_daño[0]..@rango_de_daño[1])
-    puts "¡El Fénix ataca con fuerza! Además, golpea con sus alas ardientes."
-    objetivo.recibir_ataque(daño)
+    # daño = rand(@rango_de_daño[0]..@rango_de_daño[1])
+    # puts "¡El Fénix ataca con fuerza! Además, golpea con sus alas ardientes."
+    # objetivo.recibir_ataque(daño)
   end
 
   def recibir_ataque(puntos_de_daño)
