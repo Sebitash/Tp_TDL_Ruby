@@ -8,6 +8,7 @@ CARAC_WALL = '1'
 CARAC_RATA = '2'
 CARAC_POC_VIDA_C = 'o'
 CARAC_POC_VIDA_G = 'p'
+CARAC_PUNIOS = 'j'
 CARAC_ARMA_ESP_BRO = 'l'
 CARAC_ARMA_DAG_ACE = 'm'
 CARAC_ARMA_ESP_ACE = 'n'
@@ -16,6 +17,20 @@ CARAC_ARMA_MAR_GUE = 'v'
 CARAC_ARMA_HAC_ACE = 'c'
 CARAC_ARMA_HAC_GUE = 'x'
 CARAC_ARMA_LAN_ACE = 'z'
+
+OBJETOS_ATRAVESABLES = [
+  CARAC_FLOOR,
+  CARAC_POC_VIDA_C,
+  CARAC_POC_VIDA_G,
+  CARAC_ARMA_ESP_BRO,
+  CARAC_ARMA_DAG_ACE,
+  CARAC_ARMA_ESP_ACE,
+  CARAC_ARMA_MAN_ACE,
+  CARAC_ARMA_MAR_GUE,
+  CARAC_ARMA_HAC_ACE,
+  CARAC_ARMA_HAC_GUE,
+  CARAC_ARMA_LAN_ACE
+]
 
 class Juego
   attr_accessor :x_jugador, :y_jugador, :ventana
@@ -181,86 +196,75 @@ class Juego
   def manejar_movimiento(tecla)
     case tecla
     when 'left'
-      manejo_movimiento_izquierda
+      manejar_proximo_tile(-1, 0)
     when 'right'
-      manejo_movimiento_derecha
+      manejar_proximo_tile(1, 0)
     when 'up'
-      manejo_movimiento_arriba
+      manejar_proximo_tile(0, -1)
     when 'down'
-      manejo_movimiento_abajo
+      manejar_proximo_tile(0, 1)
     when 'f'
       manejo_ataque
       sleep(0.5)
     end
-
     sleep(0.02)
   end
 
-  def manejo_movimiento_izquierda
-    proximo_tile = @mapa_nivel_actual[@y_jugador][@x_jugador - 1]
-    if proximo_tile == CARAC_FLOOR || proximo_tile == CARAC_POC_VIDA_C || proximo_tile == CARAC_POC_VIDA_G
-      if proximo_tile == CARAC_POC_VIDA_C
+  def manejar_proximo_tile(movimiento_x, movimiento_y)
+    proximo_tile = @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x]
+    if OBJETOS_ATRAVESABLES.include?(proximo_tile)
+      case proximo_tile
+      when CARAC_POC_VIDA_C
         if @jugador.recuperar_vida(PocionDeVidaChica.new)
-          @mapa_nivel_actual[@y_jugador][@x_jugador - 1] = CARAC_FLOOR
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = CARAC_FLOOR
         end
-      end
-      if proximo_tile == CARAC_POC_VIDA_G
+      when CARAC_POC_VIDA_G
         if @jugador.recuperar_vida(PocionDeVidaGrande.new)
-          @mapa_nivel_actual[@y_jugador][@x_jugador - 1] = CARAC_FLOOR
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = CARAC_FLOOR
+        end
+      when CARAC_ARMA_DAG_ACE
+        arma_anterior = @jugador.equipar_arma(DagaDeAcero.new)
+        if arma_anterior.caracter != CARAC_PUNIOS
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = arma_anterior.caracter
+        end
+      when CARAC_ARMA_ESP_BRO
+        arma_anterior = @jugador.equipar_arma(EspadaDeBronce.new)
+        if arma_anterior.caracter != CARAC_PUNIOS
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = arma_anterior.caracter
+        end
+      when CARAC_ARMA_ESP_ACE
+        arma_anterior = @jugador.equipar_arma(EspadaDeAcero.new)
+        if arma_anterior.caracter != CARAC_PUNIOS
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = arma_anterior.caracter
+        end
+      when CARAC_ARMA_MAN_ACE
+        arma_anterior = @jugador.equipar_arma(MandobleDeAcero.new)
+        if arma_anterior.caracter != CARAC_PUNIOS
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = arma_anterior.caracter
+        end
+      when CARAC_ARMA_MAR_GUE
+        arma_anterior = @jugador.equipar_arma(MartilloDeGuerra.new)
+        if arma_anterior.caracter != CARAC_PUNIOS
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = arma_anterior.caracter
+        end
+      when CARAC_ARMA_HAC_ACE
+        arma_anterior = @jugador.equipar_arma(HachaDeAcero.new)
+        if arma_anterior.caracter != CARAC_PUNIOS
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = arma_anterior.caracter
+        end
+      when CARAC_ARMA_HAC_GUE
+        arma_anterior = @jugador.equipar_arma(HachaDeGuerra.new)
+        if arma_anterior.caracter != CARAC_PUNIOS
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = arma_anterior.caracter
+        end
+      when CARAC_ARMA_LAN_ACE
+        arma_anterior = @jugador.equipar_arma(LanzaDeAcero.new)
+        if arma_anterior.caracter != CARAC_PUNIOS
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = arma_anterior.caracter
         end
       end
-      @x_jugador -= 1
-    end
-  end
-
-  def manejo_movimiento_derecha
-    proximo_tile = @mapa_nivel_actual[@y_jugador][@x_jugador + 1]
-    if proximo_tile == CARAC_FLOOR || proximo_tile == CARAC_POC_VIDA_G || proximo_tile == 'k'
-      if proximo_tile == CARAC_POC_VIDA_C
-        if @jugador.recuperar_vida(PocionDeVidaChica.new)
-          @mapa_nivel_actual[@y_jugador][@x_jugador + 1] = CARAC_FLOOR
-        end
-      end
-      if proximo_tile == CARAC_POC_VIDA_G
-        if @jugador.recuperar_vida(PocionDeVidaGrande.new)
-          @mapa_nivel_actual[@y_jugador][@x_jugador + 1] = CARAC_FLOOR
-        end
-      end
-      @x_jugador += 1
-    end
-  end
-
-  def manejo_movimiento_arriba
-    proximo_tile = @mapa_nivel_actual[@y_jugador - 1][@x_jugador]
-    if proximo_tile == CARAC_FLOOR || proximo_tile == CARAC_POC_VIDA_C || proximo_tile == CARAC_POC_VIDA_G
-      if proximo_tile == CARAC_POC_VIDA_C
-        if @jugador.recuperar_vida(PocionDeVidaChica.new)
-          @mapa_nivel_actual[@y_jugador - 1][@x_jugador] = CARAC_FLOOR
-        end
-      end
-      if proximo_tile == CARAC_POC_VIDA_G
-        if @jugador.recuperar_vida(PocionDeVidaGrande.new)
-          @mapa_nivel_actual[@y_jugador - 1][@x_jugador] = CARAC_FLOOR
-        end
-      end
-      @y_jugador -= 1
-    end
-  end
-
-  def manejo_movimiento_abajo
-    proximo_tile = @mapa_nivel_actual[@y_jugador + 1][@x_jugador]
-    if proximo_tile == CARAC_FLOOR || proximo_tile == CARAC_POC_VIDA_C || proximo_tile == CARAC_POC_VIDA_G
-      if proximo_tile == CARAC_POC_VIDA_C
-        if @jugador.recuperar_vida(PocionDeVidaChica.new)
-          @mapa_nivel_actual[@y_jugador + 1][@x_jugador] = CARAC_FLOOR
-        end
-      end
-      if proximo_tile == CARAC_POC_VIDA_G
-        if @jugador.recuperar_vida(PocionDeVidaGrande.new)
-          @mapa_nivel_actual[@y_jugador + 1][@x_jugador] = CARAC_FLOOR
-        end
-      end
-      @y_jugador += 1
+      @x_jugador += movimiento_x
+      @y_jugador += movimiento_y
     end
   end
 
