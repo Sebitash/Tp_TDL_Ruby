@@ -9,14 +9,12 @@ class CreadorCriaturas
     case tipo
       when 'Rata'
         Rata.new
-      when 'Goblin'
+      when 'Dragon'
         Dragon.new
       when 'Fenix'
         Fenix.new
       when 'Grifo'
         Grifo.new
-      else
-        raise "Tipo de criatura desconocido: #{tipo}"
       end
     end
   end

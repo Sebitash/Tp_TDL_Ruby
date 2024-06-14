@@ -6,8 +6,8 @@ class Jugador
 
   def initialize(nombre, arma = Punios.new)
     @nombre = nombre
-    @pv = [20, 20]  # Puntos de vida
-    @pm = [20, 20]  # Puntos de mana
+    @pv = [150, 350]  # Puntos de vida
+    @pm = [100, 100]  # Puntos de mana
     @oro = 0
     @nivel = 1
     @arma = arma

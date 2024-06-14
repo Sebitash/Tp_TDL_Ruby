@@ -6,8 +6,8 @@ class Rata < Criatura
   def initialize
     super(
       'Rata',
-      [5, 5],
-      [1, 2],
+      [15, 15],
+      [10, 20],
       [1, 5],
       [2, 7]
     )
@@ -40,8 +40,23 @@ class Rata < Criatura
     return @pv[0]
   end
 
-  def movimiento
-    "La rata se mueve velozmente."
+  def movimiento(mapa, criaturas, x_jugador, y_jugador)
+    movimientos_posibles = [
+      [-1, -1], [-1, 0], [-1, 1],
+      [ 0, -1],         [ 0, 1],
+      [ 1, -1], [ 1, 0], [ 1, 1]
+    ]
+
+    movimiento = movimientos_posibles.sample
+    nueva_x = @x + movimiento[0]
+    nueva_y = @y + movimiento[1]
+
+    if puede_moverse_a?(nueva_x, nueva_y, mapa, criaturas, x_jugador, y_jugador)
+      @x = nueva_x
+      @y = nueva_y
+    end
   end
+
+  
 
 end
