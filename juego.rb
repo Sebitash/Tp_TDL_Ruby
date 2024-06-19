@@ -3,6 +3,34 @@ require_relative 'creador_criaturas'
 require_relative 'equipamiento/pociones'
 
 TAMAÑO_TILE = 40
+CARAC_PISO = '0'
+CARAC_PARED = '1'
+CARAC_RATA = '2'
+CARAC_POC_VIDA_C = 'o'
+CARAC_POC_VIDA_G = 'p'
+CARAC_PUNIOS = 'j'
+CARAC_ARMA_ESP_BRO = 'l'
+CARAC_ARMA_DAG_ACE = 'm'
+CARAC_ARMA_ESP_ACE = 'n'
+CARAC_ARMA_MAN_ACE = 'b'
+CARAC_ARMA_MAR_GUE = 'v'
+CARAC_ARMA_HAC_ACE = 'c'
+CARAC_ARMA_HAC_GUE = 'x'
+CARAC_ARMA_LAN_ACE = 'z'
+
+OBJETOS_ATRAVESABLES = [
+  CARAC_PISO,
+  CARAC_POC_VIDA_C,
+  CARAC_POC_VIDA_G,
+  CARAC_ARMA_ESP_BRO,
+  CARAC_ARMA_DAG_ACE,
+  CARAC_ARMA_ESP_ACE,
+  CARAC_ARMA_MAN_ACE,
+  CARAC_ARMA_MAR_GUE,
+  CARAC_ARMA_HAC_ACE,
+  CARAC_ARMA_HAC_GUE,
+  CARAC_ARMA_LAN_ACE
+]
 
 class Juego
   attr_accessor :x_jugador, :y_jugador, :ventana
@@ -28,7 +56,7 @@ class Juego
 
   def crear_criaturas
     criatura_tipos = {
-      '2' => 'Rata',
+      CARAC_RATA => 'Rata',
       '3' => 'Dragon',
       '4' => 'Fenix',
       '5' => 'Grifo'
@@ -63,14 +91,31 @@ class Juego
   def dibujar_mapa(x_camara, y_camara)
     @mapa_nivel_actual.each_with_index do |row, y|
       row.each_with_index do |tile, x|
-        if tile == '1'
-          imagen_tile = 'tiles/wall.png'
-        elsif tile == 'p'
-          imagen_tile = 'tiles/pocion_vida1.png'
-        elsif tile == 'k'
-          imagen_tile = 'tiles/pocion_vida2.png'
+        case tile
+        when CARAC_PARED
+          imagen_tile = 'tiles/pared.png'
+        when CARAC_POC_VIDA_C
+          imagen_tile = 'tiles/pocion_de_vida_chica.png'
+        when CARAC_POC_VIDA_G
+          imagen_tile = 'tiles/pocion_de_vida_grande.png'
+        when CARAC_ARMA_ESP_BRO
+          imagen_tile = 'tiles/espada_de_bronce.png'
+        when CARAC_ARMA_DAG_ACE
+          imagen_tile = 'tiles/daga_de_acero.png'
+        when CARAC_ARMA_ESP_ACE
+          imagen_tile = 'tiles/espada_de_acero.png'
+        when CARAC_ARMA_MAN_ACE
+          imagen_tile = 'tiles/mandoble_de_acero.png'
+        when CARAC_ARMA_MAR_GUE
+          imagen_tile = 'tiles/martillo_de_guerra.png'
+        when CARAC_ARMA_HAC_ACE
+          imagen_tile = 'tiles/hacha_de_acero.png'
+        when CARAC_ARMA_HAC_GUE
+          imagen_tile = 'tiles/hacha_de_guerra.png'
+        when CARAC_ARMA_LAN_ACE
+          imagen_tile = 'tiles/lanza_de_acero.png'
         else
-          imagen_tile = 'tiles/floor.png'
+          imagen_tile = 'tiles/piso.png'
         end
 
         Image.new(
@@ -91,11 +136,11 @@ class Juego
         when 'Rata'
           'tiles/rata.png'
         when 'Dragon'
-          'tiles/dragon.png'
+          'tiles/ciclope_floor.png'
         when 'Fenix'
-          'tiles/fenix.png'
+          'tiles/murcielago.png'
         when 'Grifo'
-          'tiles/grifo.png'
+          'tiles/fantasma.png'
         end
       Image.new(
         imagen,
@@ -112,7 +157,7 @@ class Juego
       style: 'bold',size: 50, color: 'red')
       Text.new('Fin del juego', x:@ventana.width / 2 - 150, y: @ventana.height / 2 + 40,
       style: 'bold',size: 50, color: 'red')
-      Image.new('tiles/floor.png', x: (@x_jugador - x_camara) * TAMAÑO_TILE, y: (@y_jugador - y_camara) * TAMAÑO_TILE, width: TAMAÑO_TILE, height: TAMAÑO_TILE)
+      Image.new('tiles/piso.png', x: (@x_jugador - x_camara) * TAMAÑO_TILE, y: (@y_jugador - y_camara) * TAMAÑO_TILE, width: TAMAÑO_TILE, height: TAMAÑO_TILE)
     else
       @jugador.dibujar(
         (@x_jugador - x_camara) * TAMAÑO_TILE,
@@ -124,7 +169,7 @@ class Juego
   def chequear_criaturas_muertas
     @criaturas.reject! do |criatura|
       if criatura.pv <= 0
-        @mapa_nivel_actual[criatura.y][criatura.x] = '0'
+        @mapa_nivel_actual[criatura.y][criatura.x] = CARAC_PISO
         true
       else
         false
@@ -168,71 +213,102 @@ class Juego
   def manejar_movimiento(tecla)
     case tecla
     when 'left'
-      proximo_tile = @mapa_nivel_actual[@y_jugador][@x_jugador - 1]
-      if proximo_tile == '0' || proximo_tile == 'p' || proximo_tile == 'k'
-        if proximo_tile == 'p'
-          if @jugador.recuperar_vida(PocionDeVidaChica.new)
-            @mapa_nivel_actual[@y_jugador][@x_jugador - 1] = '0'
-          end
-        end
-        if proximo_tile == 'k'
-          if @jugador.recuperar_vida(PocionDeVidaGrande.new)
-            @mapa_nivel_actual[@y_jugador][@x_jugador - 1] = '0'
-          end
-        end
-        @x_jugador -= 1
-      end
+      manejar_proximo_tile(-1, 0)
     when 'right'
-      proximo_tile = @mapa_nivel_actual[@y_jugador][@x_jugador + 1]
-      if proximo_tile == '0' || proximo_tile == 'p' || proximo_tile == 'k'
-        if proximo_tile == 'p'
-          if @jugador.recuperar_vida(PocionDeVidaChica.new)
-            @mapa_nivel_actual[@y_jugador][@x_jugador + 1] = '0'
-          end
-        end
-        if proximo_tile == 'k'
-          if @jugador.recuperar_vida(PocionDeVidaGrande.new)
-            @mapa_nivel_actual[@y_jugador][@x_jugador + 1] = '0'
-          end
-        end
-        @x_jugador += 1
-      end
+      manejar_proximo_tile(1, 0)
     when 'up'
-      proximo_tile = @mapa_nivel_actual[@y_jugador - 1][@x_jugador]
-      if proximo_tile == '0' || proximo_tile == 'p' || proximo_tile == 'k'
-        if proximo_tile == 'p'
-          if @jugador.recuperar_vida(PocionDeVidaChica.new)
-            @mapa_nivel_actual[@y_jugador - 1][@x_jugador] = '0'
-          end
-        end
-        if proximo_tile == 'k'
-          if @jugador.recuperar_vida(PocionDeVidaGrande.new)
-            @mapa_nivel_actual[@y_jugador - 1][@x_jugador] = '0'
-          end
-        end
-        @y_jugador -= 1
-      end
+      manejar_proximo_tile(0, -1)
     when 'down'
-      proximo_tile = @mapa_nivel_actual[@y_jugador + 1][@x_jugador]
-      if proximo_tile == '0' || proximo_tile == 'p' || proximo_tile == 'k'
-        if proximo_tile == 'p'
-          if @jugador.recuperar_vida(PocionDeVidaChica.new)
-            @mapa_nivel_actual[@y_jugador + 1][@x_jugador] = '0'
-          end
-        end
-        if proximo_tile == 'k'
-          if @jugador.recuperar_vida(PocionDeVidaGrande.new)
-            @mapa_nivel_actual[@y_jugador + 1][@x_jugador] = '0'
-          end
-        end
-        @y_jugador += 1
-      end
+      manejar_proximo_tile(0, 1)
     when 'f'
       manejo_ataque
       sleep(0.5)
     end
-
     sleep(0.02)
+  end
+  def movimiento_criaturas
+    @criaturas.each do |criatura|
+      criatura.movimiento(@mapa_nivel_actual, @criaturas, @x_jugador, @y_jugador)
+    end
+  end
+  
+  def manejar_proximo_tile(movimiento_x, movimiento_y)
+    proximo_x = @x_jugador + movimiento_x
+    proximo_y = @y_jugador + movimiento_y
+    proximo_tile = @mapa_nivel_actual[proximo_y][proximo_x]
+    proximo_tile = @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x]
+    return if @criaturas.any? { |criatura| criatura.x == proximo_x && criatura.y == proximo_y }
+
+    if OBJETOS_ATRAVESABLES.include?(proximo_tile)
+      case proximo_tile
+      when CARAC_POC_VIDA_C
+        if @jugador.recuperar_vida(PocionDeVidaChica.new)
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = CARAC_PISO
+        end
+      when CARAC_POC_VIDA_G
+        if @jugador.recuperar_vida(PocionDeVidaGrande.new)
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = CARAC_PISO
+        end
+      when CARAC_ARMA_DAG_ACE
+        arma_anterior = @jugador.equipar_arma(DagaDeAcero.new)
+        if arma_anterior.caracter != CARAC_PUNIOS
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = arma_anterior.caracter
+        else
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = CARAC_PISO
+        end
+      when CARAC_ARMA_ESP_BRO
+        arma_anterior = @jugador.equipar_arma(EspadaDeBronce.new)
+        if arma_anterior.caracter != CARAC_PUNIOS
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = arma_anterior.caracter
+        else
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = CARAC_PISO
+        end
+      when CARAC_ARMA_ESP_ACE
+        arma_anterior = @jugador.equipar_arma(EspadaDeAcero.new)
+        if arma_anterior.caracter != CARAC_PUNIOS
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = arma_anterior.caracter
+        else
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = CARAC_PISO
+        end
+      when CARAC_ARMA_MAN_ACE
+        arma_anterior = @jugador.equipar_arma(MandobleDeAcero.new)
+        if arma_anterior.caracter != CARAC_PUNIOS
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = arma_anterior.caracter
+        else
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = CARAC_PISO
+        end
+      when CARAC_ARMA_MAR_GUE
+        arma_anterior = @jugador.equipar_arma(MartilloDeGuerra.new)
+        if arma_anterior.caracter != CARAC_PUNIOS
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = arma_anterior.caracter
+        else
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = CARAC_PISO
+        end
+      when CARAC_ARMA_HAC_ACE
+        arma_anterior = @jugador.equipar_arma(HachaDeAcero.new)
+        if arma_anterior.caracter != CARAC_PUNIOS
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = arma_anterior.caracter
+        else
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = CARAC_PISO
+        end
+      when CARAC_ARMA_HAC_GUE
+        arma_anterior = @jugador.equipar_arma(HachaDeGuerra.new)
+        if arma_anterior.caracter != CARAC_PUNIOS
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = arma_anterior.caracter
+        else
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = CARAC_PISO
+        end
+      when CARAC_ARMA_LAN_ACE
+        arma_anterior = @jugador.equipar_arma(LanzaDeAcero.new)
+        if arma_anterior.caracter != CARAC_PUNIOS
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = arma_anterior.caracter
+        else
+          @mapa_nivel_actual[@y_jugador + movimiento_y][@x_jugador + movimiento_x] = CARAC_PISO
+        end
+      end
+      @x_jugador += movimiento_x
+      @y_jugador += movimiento_y
+    end
   end
 
   def manejo_ataque

@@ -9,7 +9,7 @@ class CreadorCriaturas
     case tipo
       when 'Rata'
         Rata.new
-      when 'Goblin'
+      when 'Dragon'
         Dragon.new
       when 'Fenix'
         Fenix.new

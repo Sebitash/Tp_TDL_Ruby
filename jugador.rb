@@ -6,7 +6,7 @@ class Jugador
 
   def initialize(nombre, arma = Punios.new)
     @nombre = nombre
-    @pv = [20, 20]  # Puntos de vida
+    @pv = [200, 200]  # Puntos de vida
     @pm = [20, 20]  # Puntos de mana
     @oro = 0
     @nivel = 1
@@ -16,7 +16,7 @@ class Jugador
 
   def dibujar(x, y, size)
     Image.new(
-      'tiles/player.png',
+      'tiles/jugador.png',
       x: x,
       y: y,
       width: size,
@@ -48,9 +48,15 @@ class Jugador
     puts "Hola, soy #{@nombre} y tengo que despejar esta mazmorra."
   end
 
-  def equipar_arma(arma)
-    @arma = arma
-    puts "¡Nueva arma equipada!"
+  def equipar_arma(arma_nueva)
+    arma_anterior = @arma
+    @arma = arma_nueva
+    puts "Nueva arma equipada: #{arma_nueva.nombre}"
+    arma_anterior
+  end
+
+  def arma_equipada
+    @arma.nombre
   end
 
   def check_subir_nivel
