@@ -259,4 +259,35 @@ class Juego
       end
     end
   end
+
+  def mostrar_caracteristicas_personaje
+    texto_exp = Text.new(
+      "EXP: #{@jugador.exp[0]}",
+      y: 5,
+      style: 'bold',
+      size: 20,
+      color: 'green',
+      z: 2
+    )
+
+    texto_oro = Text.new(
+      "ORO: #{@jugador.oro[0]}",
+      x: 100,
+      y: 5,
+      style: 'bold',
+      size: 20,
+      color: 'yellow',
+      z: 2
+    )
+
+    texto_pv = Text.new(
+      "PV: #{@jugador.pv[0]}",
+      x: 200,
+      y: 5,
+      style: 'bold',
+      size: 20,
+      color: 'red',
+      z: 2
+    )
+  end
 end

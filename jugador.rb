@@ -2,7 +2,7 @@ require_relative 'equipamiento/armas'
 require_relative 'equipamiento/pociones'
 
 class Jugador
-  attr_reader :nombre
+  attr_reader :nombre, :exp, :oro, :pv
 
   def initialize(nombre, arma = Punios.new)
     @nombre = nombre
