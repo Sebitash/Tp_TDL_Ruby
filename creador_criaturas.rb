@@ -1,6 +1,6 @@
-require_relative 'criatura/dragon'
-require_relative 'criatura/grifo'
-require_relative 'criatura/fenix'
+require_relative 'criatura/ciclope'
+require_relative 'criatura/fantasma'
+require_relative 'criatura/murcielago'
 require_relative 'criatura/rata'
 
 class CreadorCriaturas

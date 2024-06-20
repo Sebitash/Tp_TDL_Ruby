@@ -44,6 +44,10 @@ class Jugador
     @pv[0]
   end
 
+  def exp
+    @exp[0]
+  end
+
   def saludar
     puts "Hola, soy #{@nombre} y tengo que despejar esta mazmorra."
   end

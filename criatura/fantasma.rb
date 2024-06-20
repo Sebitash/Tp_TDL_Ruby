@@ -1,15 +1,15 @@
 require_relative 'criatura'
 
-class Fenix < Criatura
+class Fantasma < Criatura
   attr_reader :nombre
 
   def initialize
     super(
-      'Fenix',
-      [70, 70],
-      [10, 16],
-      [21, 42],
-      [54, 87]
+      'Fantasma',
+      [120, 120],
+      [15, 21],
+      [43, 67],
+      [30, 61]
     )
   end
 
@@ -24,7 +24,7 @@ class Fenix < Criatura
     end
 
     daño = rand(@rango_de_daño[0]..@rango_de_daño[1])
-    puts "¡El Fénix ataca con fuerza! Además, golpea con sus alas ardientes."
+    puts "¡El Fantasma ataca con fuerza! Además, emite  alaridos  ensordecedores."
     objetivo.recibir_ataque(daño)
   end
 
@@ -34,26 +34,22 @@ class Fenix < Criatura
 
     if @pv[0] <= 0
       @pv[0] = 0
-      puts "¡El Fénix ha muerto!"
+      puts "¡El Fantasma ha muerto!"
     end
 
     return @pv[0]
   end
 
   def movimiento(mapa, criaturas, x_jugador, y_jugador)
-    movimientos_posibles = [
-      [-1, -1], [-1, 0], [-1, 1],
-      [ 0, -1],         [ 0, 1],
-      [ 1, -1], [ 1, 0], [ 1, 1]
-    ]
+    loop do
+      nuevo_x = rand(mapa[0].size)
+      nuevo_y = rand(mapa.size)
 
-    movimiento = movimientos_posibles.sample
-    nueva_x = @x + movimiento[0]
-    nueva_y = @y + movimiento[1]
-
-    if puede_moverse_a?(nueva_x, nueva_y, mapa, criaturas, x_jugador, y_jugador)
-      @x = nueva_x
-      @y = nueva_y
+      if puede_moverse_a?(nuevo_x, nuevo_y, mapa, criaturas, x_jugador, y_jugador)
+        @x = nuevo_x
+        @y = nuevo_y
+        break
+      end
     end
   end
 

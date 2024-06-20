@@ -6,6 +6,9 @@ TAMAÑO_TILE = 40
 CARAC_PISO = '0'
 CARAC_PARED = '1'
 CARAC_RATA = '2'
+CARAC_MURCIELAGO = '3'
+CARAC_FANTASMA = '4'
+CARAC_CICLOPE = '5'
 CARAC_POC_VIDA_C = 'o'
 CARAC_POC_VIDA_G = 'p'
 CARAC_PUNIOS = 'j'
@@ -57,9 +60,9 @@ class Juego
   def crear_criaturas
     criatura_tipos = {
       CARAC_RATA => 'Rata',
-      '3' => 'Dragon',
-      '4' => 'Fenix',
-      '5' => 'Grifo'
+      CARAC_MURCIELAGO => 'Murcielago',
+      CARAC_FANTASMA => 'Fantasma',
+      CARAC_CICLOPE => 'Ciclope'
     }
 
     @criaturas = []
@@ -135,11 +138,11 @@ class Juego
       imagen = case criatura.nombre
         when 'Rata'
           'tiles/rata.png'
-        when 'Dragon'
-          'tiles/ciclope_floor.png'
-        when 'Fenix'
+        when 'Ciclope'
+          'tiles/ciclope.png'
+        when 'Murcielago'
           'tiles/murcielago.png'
-        when 'Grifo'
+        when 'Fantasma'
           'tiles/fantasma.png'
         end
       Image.new(
@@ -226,12 +229,13 @@ class Juego
     end
     sleep(0.02)
   end
+
   def movimiento_criaturas
     @criaturas.each do |criatura|
       criatura.movimiento(@mapa_nivel_actual, @criaturas, @x_jugador, @y_jugador)
     end
   end
-  
+
   def manejar_proximo_tile(movimiento_x, movimiento_y)
     proximo_x = @x_jugador + movimiento_x
     proximo_y = @y_jugador + movimiento_y
@@ -338,7 +342,7 @@ class Juego
 
   def mostrar_caracteristicas_personaje
     texto_exp = Text.new(
-      "EXP: #{@jugador.exp[0]}",
+      "EXP: #{@jugador.exp}",
       y: 5,
       style: 'bold',
       size: 20,
@@ -347,7 +351,7 @@ class Juego
     )
 
     texto_oro = Text.new(
-      "ORO: #{@jugador.oro[0]}",
+      "ORO: #{@jugador.oro}",
       x: 100,
       y: 5,
       style: 'bold',
@@ -357,7 +361,7 @@ class Juego
     )
 
     texto_pv = Text.new(
-      "PV: #{@jugador.pv[0]}",
+      "PV: #{@jugador.pv}",
       x: 200,
       y: 5,
       style: 'bold',
