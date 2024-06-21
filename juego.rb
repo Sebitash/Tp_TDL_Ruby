@@ -1,53 +1,22 @@
 require 'ruby2d'
 require_relative 'creador_criaturas'
 require_relative 'equipamiento/pociones'
-
-TAMAÑO_TILE = 40
-CARAC_PISO = '0'
-CARAC_PARED = '1'
-CARAC_RATA = '2'
-CARAC_MURCIELAGO = '3'
-CARAC_FANTASMA = '4'
-CARAC_CICLOPE = '5'
-CARAC_POC_VIDA_C = 'o'
-CARAC_POC_VIDA_G = 'p'
-CARAC_PUNIOS = 'j'
-CARAC_ARMA_ESP_BRO = 'l'
-CARAC_ARMA_DAG_ACE = 'm'
-CARAC_ARMA_ESP_ACE = 'n'
-CARAC_ARMA_MAN_ACE = 'b'
-CARAC_ARMA_MAR_GUE = 'v'
-CARAC_ARMA_HAC_ACE = 'c'
-CARAC_ARMA_HAC_GUE = 'x'
-CARAC_ARMA_LAN_ACE = 'z'
-
-OBJETOS_ATRAVESABLES = [
-  CARAC_PISO,
-  CARAC_POC_VIDA_C,
-  CARAC_POC_VIDA_G,
-  CARAC_ARMA_ESP_BRO,
-  CARAC_ARMA_DAG_ACE,
-  CARAC_ARMA_ESP_ACE,
-  CARAC_ARMA_MAN_ACE,
-  CARAC_ARMA_MAR_GUE,
-  CARAC_ARMA_HAC_ACE,
-  CARAC_ARMA_HAC_GUE,
-  CARAC_ARMA_LAN_ACE
-]
+require_relative 'util'
 
 class Juego
   attr_accessor :x_jugador, :y_jugador, :ventana
 
   def initialize(jugador, ventana)
+    limpiar_terminal
     @ventana = ventana
 
     @jugador = jugador
     @tiempo_ultimo_ataque = Time.now
     @numero_nivel_actual = 1
     @mapa = {
-      1 => cargar_mapa("mapas_niveles/nivel1.txt"),
-      2 => cargar_mapa("mapas_niveles/nivel2.txt"),
-      3 => cargar_mapa("mapas_niveles/nivel3.txt"),
+      1 => cargar_mapa(NIVEL_1),
+      2 => cargar_mapa(NIVEL_2),
+      3 => cargar_mapa(NIVEL_3),
     }
     @mapa_nivel_actual = @mapa[@numero_nivel_actual]
     @x_jugador = 1
@@ -55,6 +24,10 @@ class Juego
     @juego_terminado = false
 
     crear_criaturas
+  end
+
+  def limpiar_terminal
+    system('clear') || system('cls')
   end
 
   def crear_criaturas
@@ -96,31 +69,31 @@ class Juego
       row.each_with_index do |tile, x|
         case tile
         when CARAC_PARED
-          imagen_tile = 'tiles/pared.png'
+          imagen_tile = PNG_PARED
         when CARAC_POC_VIDA_C
-          imagen_tile = 'tiles/pocion_de_vida_chica.png'
+          imagen_tile = PNG_POC_VIDA_C
         when CARAC_POC_VIDA_G
-          imagen_tile = 'tiles/pocion_de_vida_grande.png'
+          imagen_tile = PNG_POC_VIDA_G
         when CARAC_ARMA_ESP_BRO
-          imagen_tile = 'tiles/espada_de_bronce.png'
+          imagen_tile = PNG_ESP_BRO
         when CARAC_ARMA_DAG_ACE
-          imagen_tile = 'tiles/daga_de_acero.png'
+          imagen_tile = PNG_DAG_ACE
         when CARAC_ARMA_ESP_ACE
-          imagen_tile = 'tiles/espada_de_acero.png'
+          imagen_tile = PNG_ESP_ACE
         when CARAC_ARMA_MAN_ACE
-          imagen_tile = 'tiles/mandoble_de_acero.png'
+          imagen_tile = PNG_MAN_ACE
         when CARAC_ARMA_MAR_GUE
-          imagen_tile = 'tiles/martillo_de_guerra.png'
+          imagen_tile = PNG_MAR_GUE
         when CARAC_ARMA_HAC_ACE
-          imagen_tile = 'tiles/hacha_de_acero.png'
+          imagen_tile = PNG_HACHA_ACE
         when CARAC_ARMA_HAC_GUE
-          imagen_tile = 'tiles/hacha_de_guerra.png'
+          imagen_tile = PNG_HACHA_GUE
         when CARAC_ARMA_LAN_ACE
-          imagen_tile = 'tiles/lanza_de_acero.png'
+          imagen_tile = PNG_LAN_ACE
         else
-          imagen_tile = 'tiles/piso.png'
+          imagen_tile = PNG_PISO
         end
-
+  
         Image.new(
           imagen_tile,
           x: (x - x_camara) * TAMAÑO_TILE,
@@ -130,37 +103,36 @@ class Juego
         )
       end
     end
-
+  
     @criaturas.each do |criatura|
       x = (criatura.x - x_camara) * TAMAÑO_TILE
       y = (criatura.y - y_camara) * TAMAÑO_TILE
-
+  
       imagen = case criatura.nombre
         when 'Rata'
-          'tiles/rata.png'
+          PNG_RATA
         when 'Ciclope'
-          'tiles/ciclope.png'
+          PNG_CICLOPE
         when 'Murcielago'
-          'tiles/murcielago.png'
+          PNG_MURCIELAGO
         when 'Fantasma'
-          'tiles/fantasma.png'
+          PNG_FANTASMA
         end
       Image.new(
         imagen,
         x: x,
         y: y,
         width: TAMAÑO_TILE,
-        height:
-        TAMAÑO_TILE
+        height: TAMAÑO_TILE
       )
     end
-
+  
     if @juego_terminado
       Text.new('Moriste', x: @ventana.width / 2 - 90, y: @ventana.height / 2 - 50,
       style: 'bold',size: 50, color: 'red')
       Text.new('Fin del juego', x:@ventana.width / 2 - 150, y: @ventana.height / 2 + 40,
       style: 'bold',size: 50, color: 'red')
-      Image.new('tiles/piso.png', x: (@x_jugador - x_camara) * TAMAÑO_TILE, y: (@y_jugador - y_camara) * TAMAÑO_TILE, width: TAMAÑO_TILE, height: TAMAÑO_TILE)
+      Image.new(PNG_PISO, x: (@x_jugador - x_camara) * TAMAÑO_TILE, y: (@y_jugador - y_camara) * TAMAÑO_TILE, width: TAMAÑO_TILE, height: TAMAÑO_TILE)
     else
       @jugador.dibujar(
         (@x_jugador - x_camara) * TAMAÑO_TILE,
@@ -168,6 +140,7 @@ class Juego
       ) if @jugador.pv > 0
     end
   end
+  
 
   def chequear_criaturas_muertas
     @criaturas.reject! do |criatura|
@@ -232,9 +205,17 @@ class Juego
 
   def movimiento_criaturas
     @criaturas.each do |criatura|
+      posicion_anterior_x = criatura.x
+      posicion_anterior_y = criatura.y
+  
       criatura.movimiento(@mapa_nivel_actual, @criaturas, @x_jugador, @y_jugador)
+  
+      if criatura.x != posicion_anterior_x || criatura.y != posicion_anterior_y
+        @mapa_nivel_actual[posicion_anterior_y][posicion_anterior_x] = CARAC_PISO
+      end
     end
   end
+  
 
   def manejar_proximo_tile(movimiento_x, movimiento_y)
     proximo_x = @x_jugador + movimiento_x
@@ -327,14 +308,12 @@ class Juego
 
   def chequear_ataque_criatura
     @criaturas.each do |criatura|
-      # Verificar si el jugador está vivo y si ha pasado suficiente tiempo desde el último ataque de la rata
       if @jugador.pv > 0 && (Time.now - @tiempo_ultimo_ataque >= 3) && (criatura.x - @x_jugador).abs <= 1 && (criatura.y - @y_jugador).abs <= 1
-        # Verificar si el jugador y la criatura están en la misma fila o columna
         if criatura.x == @x_jugador || criatura.y == @y_jugador
           criatura.atacar(@jugador)
           puts "La vida del jugador es #{@jugador.pv}"
 
-          @tiempo_ultimo_ataque = Time.now  # Actualizar el tiempo del último ataque
+          @tiempo_ultimo_ataque = Time.now  
         end
       end
     end

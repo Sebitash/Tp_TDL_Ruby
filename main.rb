@@ -2,15 +2,16 @@ require_relative 'jugador'
 require_relative 'juego.rb'
 require_relative 'menu.rb'
 require 'ruby2d'
+require_relative 'util'
 
-set title: "Tiny Dungeon"
+set title: NOMBRE_JUEGO
 set width: 480
 set height: 320
 
 # Ventana del juego
 ventana = Window.new
 ventana.set(
-  title: "Tiny Dungeon",
+  title: NOMBRE_JUEGO,
   width: 480,
   height: 320
 )
@@ -23,8 +24,8 @@ juego = Juego.new(
 )
 
 menu = Menu.new(ventana)
-update_interval = 0.5 # Intervalo de actualización en segundos
-@last_creature_update = Time.now # Inicialización del temporizador
+update_interval = 0.5 
+@last_creature_update = Time.now 
 update do
   clear
 
@@ -35,6 +36,7 @@ update do
   end
 
   if !menu.esta_abierto
+    
     juego.chequear_jugador_vivo
     x_camara, y_camara = juego.mover_camara
     juego.dibujar_mapa(x_camara, y_camara)
@@ -47,6 +49,7 @@ update do
     end
   end
 end
+
 
 on :key_held do |evento|
   if evento.key == 'escape'
@@ -61,4 +64,8 @@ on :key_held do |evento|
   sleep(0.03)
 end
 
+at_exit do
+  juego.limpiar_terminal
+  puts "Gracias por jugar a Tiny Dungeon"
+end
 show
