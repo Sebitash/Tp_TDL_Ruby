@@ -15,12 +15,11 @@ ventana.set(
   width: 480,
   height: 320
 )
+system('clear') || system('cls')
 print "Ingresa el nombre del jugador: "
 nombre_jugador = gets.chomp
 jugador = Jugador.new(nombre_jugador)
 
-sonido_menu = Music.new('menu.mp3')
-sonido_menu.volume= 50
 menu = Menu.new(ventana)
 juego = Juego.new(
   jugador,
@@ -33,15 +32,10 @@ update_interval = 0.5
 @last_creature_update = Time.now 
 update do
   clear
-  juego.reproducir_musica_juego
   if menu.esta_abierto
     menu.abrir_menu
-    sonido_menu.play
-    juego.pausar_musica_juego
   else
     menu.cerrar_menu
-    sonido_menu.stop
-    juego.continuar_musica_juego
   end
 
   if !menu.esta_abierto

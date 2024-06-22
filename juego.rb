@@ -194,6 +194,7 @@ class Juego
   end
   
   def mostrar_mensaje_ganaste
+    limpiar_terminal
     Rectangle.new(
       x: 0, y: 0,
       width: @ventana.width, height: @ventana.height,

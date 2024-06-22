@@ -23,12 +23,10 @@ class Arma
     end
   end
 
-  # Retorna el daño realizado
   def atacar
     daño = rand(@rango_de_daño[0]..@rango_de_daño[1])
     @durabilidad -= @desgaste
 
-    # Si se rompe el arma
     if @durabilidad <= 0
       @nombre = "Puños"
       @rango_de_daño = [1, 2]
