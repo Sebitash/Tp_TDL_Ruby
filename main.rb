@@ -15,15 +15,17 @@ ventana.set(
   width: 480,
   height: 320
 )
-
-jugador = Jugador.new("Jugador")
-
+print "Ingresa el nombre del jugador: "
+nombre_jugador = gets.chomp
+jugador = Jugador.new(nombre_jugador)
+menu = Menu.new(ventana)
 juego = Juego.new(
   jugador,
-  ventana
+  ventana,
+  menu
 )
 
-menu = Menu.new(ventana)
+
 update_interval = 0.5 
 @last_creature_update = Time.now 
 update do
@@ -36,7 +38,6 @@ update do
   end
 
   if !menu.esta_abierto
-    
     juego.chequear_jugador_vivo
     x_camara, y_camara = juego.mover_camara
     juego.dibujar_mapa(x_camara, y_camara)
@@ -66,6 +67,5 @@ end
 
 at_exit do
   juego.limpiar_terminal
-  puts "Gracias por jugar a Tiny Dungeon"
 end
 show

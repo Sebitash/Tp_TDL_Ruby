@@ -11,7 +11,13 @@ class Menu
     # Pantalla de controles
     @controles = false
   end
-
+  def reiniciar_menu
+    @menu_inicial = true
+    @menu = false
+    @partida_iniciada = false
+    # Pantalla de controles
+    @controles = false
+  end
   def esta_abierto
     @menu_inicial || @menu || @controles
   end
@@ -22,6 +28,8 @@ class Menu
 
   def abrir_menu
     @menu = true
+    @controles = false
+    @menu_inicial = false if @partida_iniciada
     dibujar_menu
     dibujar_textos
   end

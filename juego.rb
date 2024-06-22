@@ -2,26 +2,29 @@ require 'ruby2d'
 require_relative 'creador_criaturas'
 require_relative 'equipamiento/pociones'
 require_relative 'util'
+require_relative 'menu'
 
 class Juego
   attr_accessor :x_jugador, :y_jugador, :ventana
 
-  def initialize(jugador, ventana)
+  def initialize(jugador, ventana, menu)
     limpiar_terminal
     @ventana = ventana
+    @menu = menu
 
     @jugador = jugador
     @tiempo_ultimo_ataque = Time.now
     @numero_nivel_actual = 1
     @mapa = {
       1 => cargar_mapa(NIVEL_1),
-      2 => cargar_mapa(NIVEL_2),
-      3 => cargar_mapa(NIVEL_3),
+      #2 => cargar_mapa(NIVEL_2),
+      #3 => cargar_mapa(NIVEL_3),
     }
     @mapa_nivel_actual = @mapa[@numero_nivel_actual]
     @x_jugador = 1
     @y_jugador = 1
     @juego_terminado = false
+    @ganaste = false
 
     crear_criaturas
   end
@@ -128,10 +131,15 @@ class Juego
     end
   
     if @juego_terminado
-      Text.new('Moriste', x: @ventana.width / 2 - 90, y: @ventana.height / 2 - 50,
-      style: 'bold',size: 50, color: 'red')
-      Text.new('Fin del juego', x:@ventana.width / 2 - 150, y: @ventana.height / 2 + 40,
-      style: 'bold',size: 50, color: 'red')
+      if @ganaste
+        sleep(5)
+        @ventana.close if @ventana
+      else
+        Text.new('Moriste', x: @ventana.width / 2 - 90, y: @ventana.height / 2 - 50,
+                 style: 'bold', size: 50, color: 'red')
+        Text.new('Fin del juego', x:@ventana.width / 2 - 150, y: @ventana.height / 2 + 40,
+                 style: 'bold', size: 50, color: 'red')
+      end
       Image.new(PNG_PISO, x: (@x_jugador - x_camara) * TAMAÑO_TILE, y: (@y_jugador - y_camara) * TAMAÑO_TILE, width: TAMAÑO_TILE, height: TAMAÑO_TILE)
     else
       @jugador.dibujar(
@@ -151,15 +159,48 @@ class Juego
         false
       end
     end
-
+  
     if @criaturas.empty?
-      @numero_nivel_actual += 1
-      @mapa_nivel_actual = @mapa[@numero_nivel_actual]
-      @x_jugador = 1
-      @y_jugador = 1
-      crear_criaturas
+      if @numero_nivel_actual < @mapa.keys.max
+        @numero_nivel_actual += 1
+        @mapa_nivel_actual = @mapa[@numero_nivel_actual]
+        @x_jugador = 1
+        @y_jugador = 1
+        crear_criaturas
+      else
+        @juego_terminado = true
+        @ganaste = true
+        mostrar_mensaje_ganaste
+        
+      end
     end
   end
+  
+  def mostrar_mensaje_ganaste
+    Rectangle.new(
+      x: 0, y: 0,
+      width: @ventana.width, height: @ventana.height,
+      color: 'black'
+    )
+    Text.new(
+      '¡Ganaste el juego!',
+      x: @ventana.width / 2 - 230,
+      y: @ventana.height / 2 - 50,
+      style: 'bold',
+      size: 50,
+      color: 'green'
+    )
+    Text.new(
+      'Gracias por jugar',
+      x: @ventana.width / 2 - 100,
+      y: @ventana.height / 2 + 80,
+      style: 'bold',
+      size: 25,
+      color: 'red'
+    )
+  end
+  
+
 
   def chequear_jugador_vivo
     if @jugador.pv <= 0
