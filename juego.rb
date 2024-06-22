@@ -26,9 +26,26 @@ class Juego
     @juego_terminado = false
     @ganaste = false
 
+    @sonido_jugando = Music.new('dungeon.mp3')
+    @sonido_jugando.volume = 50
+    @sonido_jugando.loop = true
+    #@sonido_ganar = Music.new('path/al/archivo/sonido_ganar.wav')
+
     crear_criaturas
   end
-
+  def reproducir_musica_juego
+    @sonido_jugando.play
+  end
+  def pausar_musica_juego
+    @sonido_jugando.pause
+  end
+  def continuar_musica_juego
+    @sonido_jugando.resume
+  end
+  def reproducir_sonido_victoria
+    @sonido_ganar.play
+  end
+  
   def limpiar_terminal
     system('clear') || system('cls')
   end
