@@ -17,8 +17,8 @@ class Juego
     @numero_nivel_actual = 1
     @mapa = {
       1 => cargar_mapa(NIVEL_1),
-      #2 => cargar_mapa(NIVEL_2),
-      #3 => cargar_mapa(NIVEL_3),
+      2 => cargar_mapa(NIVEL_2),
+      3 => cargar_mapa(NIVEL_3),
     }
     @mapa_nivel_actual = @mapa[@numero_nivel_actual]
     @x_jugador = 1
@@ -67,7 +67,12 @@ class Juego
 
     matriz
   end
-
+  
+  def imprimir_arma_equipada
+    Text.new("#{@jugador.arma_equipada}", x: @ventana.width / 2 - 230, y: @ventana.height / 2 + 120,
+    style: 'bold', color: 'red', size: 20)
+  end
+  
   def dibujar_mapa(x_camara, y_camara)
     @mapa_nivel_actual.each_with_index do |row, y|
       row.each_with_index do |tile, x|
@@ -143,6 +148,7 @@ class Juego
       end
       Image.new(PNG_PISO, x: (@x_jugador - x_camara) * TAMAÑO_TILE, y: (@y_jugador - y_camara) * TAMAÑO_TILE, width: TAMAÑO_TILE, height: TAMAÑO_TILE)
     else
+      imprimir_arma_equipada
       @jugador.dibujar(
         (@x_jugador - x_camara) * TAMAÑO_TILE,
         (@y_jugador - y_camara) * TAMAÑO_TILE, TAMAÑO_TILE
