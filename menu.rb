@@ -28,7 +28,6 @@ class Menu
 
   def abrir_menu
     @menu = true
-    @controles = false
     @menu_inicial = false if @partida_iniciada
     dibujar_menu
     dibujar_textos
@@ -61,7 +60,6 @@ class Menu
   end
 
   def dibujar_textos_menu_inicial
-    
     inicio_texto2 = Text.new('Presione ENTER para continuar', x:@ventana.width / 2 - 180, y: @ventana.height / 2 + 10, z: 1,
     style: 'bold', size: 25, color: 'brown')
   end
