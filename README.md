@@ -36,4 +36,24 @@ https://www.ruby2d.com/learn/linux/#install-ruby.
 
 ## Como correr el juego ?
 
+Basta con ubicarse en la carpeta del proyecto y correr
+
+```bash
+ruby main.rb
+```
+## Bibliografica
+
+https://www.techotopia.com/index.php/Ruby_Essentials
+
+https://blog.hubspot.es/website/ruby#tipo
+
+https://www.ruby2d.com/
+
+
 ## Creadores
+
+Rodolfo Albornoz
+
+Francisco Pereyra
+
+Sebastian Makkos
